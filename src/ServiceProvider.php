@@ -4,6 +4,12 @@ namespace SlimKit\Component\PlusQuestion;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+    /**
+     * Register the service.
+     *
+     * @return void
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function register()
     {
         // register cntainer aliases
