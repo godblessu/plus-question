@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Register handler singleton.
         $this->registerHandlerSingletions();
+
+        // Publish public resource.
+        $this->publishes([
+            $this->app->make('path.question.asstes') => $this->app->PublicPath().'/question',
+        ], 'public');
     }
 
     /**
@@ -32,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         // Bind all of the package paths in the container.
         $this->app->instance('path.question', $path = dirname(dirname(__DIR__)));
         $this->app->instance('path.question.migration', $path.'/database/migrations');
+        $this->app->instance('path.question.asstes', $path.'/asstes');
 
         // register cntainer aliases
         $this->registerContainerAliases();
