@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use SlimKit\PlusQuestion\API2\Controllers as API2;
 use Illuminate\Contracts\Routing\Registrar as RouteRegisterContract;
 
 /*
@@ -16,5 +17,9 @@ use Illuminate\Contracts\Routing\Registrar as RouteRegisterContract;
 
 Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
 
-    // todo.
+    $api->group(['prefix' => 'question-topics'], function (RouteRegisterContract $api) {
+
+        // Question topics
+        $api->get('/', API2\TopicController::class.'@index');
+    });
 });
