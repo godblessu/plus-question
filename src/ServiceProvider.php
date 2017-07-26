@@ -5,7 +5,19 @@ namespace SlimKit\Component\PlusQuestion;
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
-     * Register the service.
+     * Boorstrap the service provider.
+     *
+     * @return void
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function boot()
+    {
+        // Register a database migration path.
+        $this->loadMigrationsFrom([dirname(__DIR__).'/database/migrations']);
+    }
+
+    /**
+     * Register the service provider.
      *
      * @return void
      * @author Seven Du <shiweidu@outlook.com>
