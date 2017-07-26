@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use SlimKit\PlusQuestion\API2\Controllers as API2;
 use Illuminate\Contracts\Routing\Registrar as RouteRegisterContract;
 
 /*

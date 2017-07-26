@@ -73,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
             ],
             'plus-question:dev-handler' => [
                 \SlimKit\PlusQuestion\Handlers\DevPackageHandler::class,
-            ]
+            ],
         ];
 
         foreach ($aliases as $key => $aliases) {
