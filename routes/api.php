@@ -16,7 +16,6 @@ use Illuminate\Contracts\Routing\Registrar as RouteRegisterContract;
 */
 
 Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
-
     $api->group(['prefix' => 'question-topics'], function (RouteRegisterContract $api) {
 
         // Question topics
