@@ -1,8 +1,8 @@
 <?php
 
-namespace SlimKit\Component\PlusQuestion;
+namespace SlimKit\Component\PlusQuestion\Providers;
 
-class ServiceProvider extends \Illuminate\Support\ServiceProvider
+class AppServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
      * Boorstrap the service provider.
@@ -13,7 +13,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         // Register a database migration path.
-        $this->loadMigrationsFrom([dirname(__DIR__).'/database/migrations']);
+        $this->loadMigrationsFrom($this->app->make('path.question.migration'));
 
         // Register handler singleton.
         $this->registerHandlerSingletions();
@@ -27,6 +27,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
+        // Bind all of the package paths in the container.
+        $this->app->instance('path.question', $path = dirname(dirname(__DIR__)));
+        $this->app->instance('path.question.migration', $path.'/database/migrations');
+
         // register cntainer aliases
         $this->registerContainerAliases();
 
@@ -44,12 +48,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         // Owner handler.
         $this->app->singleton('plus-question:handler', function () {
-            return new Handlers\PackageHandler();
+            return new \SlimKit\Component\PlusQuestion\Handlers\PackageHandler();
         });
 
         // Develop handler.
         $this->app->singleton('plus-question:dev-handler', function ($app) {
-            return new Handlers\DevPackageHandler($app);
+            return new \SlimKit\Component\PlusQuestion\Handlers\DevPackageHandler($app);
         });
     }
 

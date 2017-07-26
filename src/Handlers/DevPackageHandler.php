@@ -35,7 +35,7 @@ class DevPackageHandler extends \Zhiyi\Plus\Support\PackageHandler
     public function createMigrationHandle(Command $command)
     {
         // Resolve migration file path.
-        $path = str_replace($this->app->basePath(), '', dirname(dirname(__DIR__)).'/database/migrations');
+        $path = str_replace($this->app->basePath(), '', $this->app->make('path.question.migration'));
 
         // Ask table name.
         $table = $command->ask('Enter the table name');
