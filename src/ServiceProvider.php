@@ -23,7 +23,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $aliases = [
             'plus-question:handler' => [
-                SlimKit\Component\PlusQuestion\PackageHandler::class,
+                SlimKit\Component\PlusQuestion\Handlers\PackageHandler::class,
             ],
         ];
 

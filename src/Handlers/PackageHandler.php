@@ -1,6 +1,6 @@
 <?php
 
-namespace SlimKit\Component\PlusQuestion;
+namespace SlimKit\Component\PlusQuestion\Handlers;
 
 use Illuminate\Console\Command;
 
