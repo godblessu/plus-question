@@ -20,8 +20,8 @@ class PackageHandler extends \Zhiyi\Plus\Support\PackageHandler
         return $command->call('vendor:publish', [
             '--provider' => \SlimKit\PlusQuestion\ServiceProvider::class,
             '--tag' => 'public',
-            '--force' => boolval($force)
-        ])
+            '--force' => boolval($force),
+        ]);
     }
 
     /**

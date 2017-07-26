@@ -33,4 +33,4 @@ Route::group(
         'middleware' => ['web', 'auth', 'admin'],
     ],
     __DIR__.'/routes/admin.php'
-),
+);
