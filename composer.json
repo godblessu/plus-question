@@ -1,0 +1,27 @@
+{
+    "name": "slimkit/plus-question",
+    "description": "🤔The Q & A component for ThinkSNS+. （ThinkSNS+ 问答模块）✈️",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Seven Du",
+            "email": "shiweidu@outlook.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SlimKit\\Component\\PlusQuestion\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SlimKit\\Component\\PlusQuestion\\ServiceProvider"
+            ]
+        }
+    }
+}
