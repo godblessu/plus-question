@@ -48,6 +48,12 @@ class Topic extends Model implements ShouldAvatarContract
             ->using(TopicUser::class);
     }
 
+    /**
+     * Topic experts.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function experts()
     {
         return $this->belongsToMany(User::class)
