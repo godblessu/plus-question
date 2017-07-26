@@ -14,6 +14,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         // Register a database migration path.
         $this->loadMigrationsFrom([dirname(__DIR__).'/database/migrations']);
+
+        // Register handler singleton.
+        $this->registerHandlerSingletions();
     }
 
     /**
@@ -29,6 +32,25 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         // Register Plus package handlers.
         $this->registerPackageHandlers();
+    }
+
+    /**
+     * Register Plus package handlers.
+     *
+     * @return void
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    protected function registerHandlerSingletions()
+    {
+        // Owner handler.
+        $this->app->singleton('plus-question:handler', function () {
+            return new Handlers\PackageHandler();
+        });
+
+        // Develop handler.
+        $this->app->singleton('plus-question:dev-handler', function ($app) {
+            return new Handlers\DevPackageHandler($app);
+        });
     }
 
     /**
