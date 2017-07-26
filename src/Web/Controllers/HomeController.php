@@ -1,6 +1,6 @@
 <?php
 
-namespace SlimKit\Component\PlusQuestion\Web\Controllers;
+namespace SlimKit\PlusQuestion\Web\Controllers;
 
 class HomeController extends Controller
 {

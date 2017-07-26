@@ -1,6 +1,6 @@
 <?php
 
-namespace SlimKit\Component\PlusQuestion\Handlers;
+namespace SlimKit\PlusQuestion\Handlers;
 
 use Illuminate\Console\Command;
 
@@ -18,7 +18,7 @@ class PackageHandler extends \Zhiyi\Plus\Support\PackageHandler
         $force = $command->confirm('Overwrite any existing files');
 
         return $command->call('vendor:publish', [
-            '--provider' => \SlimKit\Component\PlusQuestion\ServiceProvider::class,
+            '--provider' => \SlimKit\PlusQuestion\ServiceProvider::class,
             '--tag' => 'public',
             '--force' => boolval($force)
         ])

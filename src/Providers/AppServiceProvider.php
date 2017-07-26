@@ -1,6 +1,6 @@
 <?php
 
-namespace SlimKit\Component\PlusQuestion\Providers;
+namespace SlimKit\PlusQuestion\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -50,12 +50,12 @@ class AppServiceProvider extends ServiceProvider
     {
         // Owner handler.
         $this->app->singleton('plus-question:handler', function () {
-            return new \SlimKit\Component\PlusQuestion\Handlers\PackageHandler();
+            return new \SlimKit\PlusQuestion\Handlers\PackageHandler();
         });
 
         // Develop handler.
         $this->app->singleton('plus-question:dev-handler', function ($app) {
-            return new \SlimKit\Component\PlusQuestion\Handlers\DevPackageHandler($app);
+            return new \SlimKit\PlusQuestion\Handlers\DevPackageHandler($app);
         });
     }
 
@@ -69,10 +69,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $aliases = [
             'plus-question:handler' => [
-                \SlimKit\Component\PlusQuestion\Handlers\PackageHandler::class,
+                \SlimKit\PlusQuestion\Handlers\PackageHandler::class,
             ],
             'plus-question:dev-handler' => [
-                \SlimKit\Component\PlusQuestion\Handlers\DevPackageHandler::class,
+                \SlimKit\PlusQuestion\Handlers\DevPackageHandler::class,
             ]
         ];
 

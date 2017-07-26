@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use SlimKit\Component\Admin\Controllers as Admin;
+use SlimKit\PlusQuestion\Admin\Controllers as Admin;
 use Illuminate\Contracts\Routing\Registrar as RouteRegisterContract;
 
 /*

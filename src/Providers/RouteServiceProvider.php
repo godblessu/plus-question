@@ -1,6 +1,6 @@
 <?php
 
-namespace SlimKit\Component\PlusQuestion\Providers;
+namespace SlimKit\PlusQuestion\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

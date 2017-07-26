@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SlimKit\\Component\\PlusQuestion\\": "src/"
+            "SlimKit\\PlusQuestion\\": "src/"
         }
     },
     "extra": {
@@ -30,8 +30,8 @@
         },
         "laravel": {
             "providers": [
-                "SlimKit\\Component\\PlusQuestion\\Providers\\AppServiceProvider",
-                "SlimKit\\Component\\PlusQuestion\\Providers\\RouteServiceProvider"
+                "SlimKit\\PlusQuestion\\Providers\\AppServiceProvider",
+                "SlimKit\\PlusQuestion\\Providers\\RouteServiceProvider"
             ]
         }
     },
