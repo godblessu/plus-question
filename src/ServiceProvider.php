@@ -23,8 +23,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $aliases = [
             'plus-question:handler' => [
-                SlimKit\Component\PlusQuestion\Handlers\PackageHandler::class,
+                \SlimKit\Component\PlusQuestion\Handlers\PackageHandler::class,
             ],
+            'plus-question:dev-handler' => [
+                \SlimKit\Component\PlusQuestion\Handlers\DevPackageHandler::class,
+            ]
         ];
 
         foreach ($aliases as $key => $aliases) {
@@ -43,6 +46,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerPackageHandlers()
     {
         $this->loadHandleFrom('question', 'plus-question:handler');
+        $this->loadHandleFrom('question-dev', 'plus-question:dev-handler');
     }
 
     /**
