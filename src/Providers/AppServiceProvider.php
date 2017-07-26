@@ -2,7 +2,9 @@
 
 namespace SlimKit\Component\PlusQuestion\Providers;
 
-class AppServiceProvider extends \Illuminate\Support\ServiceProvider
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
 {
     /**
      * Boorstrap the service provider.
