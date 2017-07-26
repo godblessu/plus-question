@@ -2,6 +2,7 @@
 
 namespace SlimKit\PlusQuestion\Models;
 
+use Zhiyi\Plus\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Zhiyi\Plus\Models\Concerns\HasAvatar;
 use Zhiyi\Plus\Contracts\Model\ShouldAvatar as ShouldAvatarContract;
@@ -33,6 +34,18 @@ class Topic extends Model implements ShouldAvatarContract
     public function getAvatarAttribute()
     {
         return $this->avatar();
+    }
+
+    /**
+     * Topic followers.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function followers()
+    {
+        return $this->belongsToMany(User::class)
+            ->using(TopicUser::class);
     }
 
     /**
