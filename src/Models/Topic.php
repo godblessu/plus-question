@@ -48,6 +48,12 @@ class Topic extends Model implements ShouldAvatarContract
             ->using(TopicUser::class);
     }
 
+    public function experts()
+    {
+        return $this->belongsToMany(User::class)
+            ->using(TopicExpert::class);
+    }
+
     /**
      * Get avatar trait.
      *
