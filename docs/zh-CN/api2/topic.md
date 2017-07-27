@@ -2,6 +2,8 @@
 
 - [获取全部话题](#获取全部话题)
 - [获取认证用户关注的话题或者专家话题](#获取认证用户关注的话题或者专家话题)
+- [关注一个话题](#关注一个话题)
+- [取消关注一个话题](#取消关注一个话题)
 
 ## 获取全部话题
 
@@ -86,3 +88,34 @@ Status: 200 OK
 | questions_count | 话题下的问题数量统计 |
 | follows_count | 话题下的关注用户统计 |
 | avatar | 话题头像，如果存在则为「字符串」，否则固定值 `null` |
+
+## 关注一个话题
+
+```
+PUT /user/question-topics/:topic
+```
+
+#### 响应
+
+```
+Status: 201 Created
+```
+```json
+{
+    "message": [
+        "操作成功"
+    ]
+}
+```
+
+## 取消关注一个话题
+
+```
+DELETE /user/question-topics/:topic
+```
+
+#### 响应
+
+```
+Status: 204 No Content
+```
