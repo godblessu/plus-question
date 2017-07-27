@@ -54,11 +54,13 @@ class TopicUserController extends Controller
         );
 
         if ($user->questionTopics()->newPivotStatementForId($topic->id)->first()) {
-            return $response->json(['message' => ['已关注了该话题，请勿重复操作']], 422);
+            $message = trans('plus-question::topics.followed', ['name' => $topic->name]);
+
+            return $response->json(['message' => [$message]], 422);
         }
 
         $user->questionTopics()->attach($topic);
 
-        return $response->json(['message' => ['操作成功']], 201);
+        return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
     }
 }

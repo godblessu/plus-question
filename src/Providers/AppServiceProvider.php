@@ -17,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
         // Register a database migration path.
         $this->loadMigrationsFrom($this->app->make('path.question.migration'));
 
+        // Register translations.
+        $this->loadTranslationsFrom($this->app->make('path.question.lang'), 'plus-question');
+
         // Register handler singleton.
         $this->registerHandlerSingletions();
 
@@ -38,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->instance('path.question', $path = dirname(dirname(__DIR__)));
         $this->app->instance('path.question.migration', $path.'/database/migrations');
         $this->app->instance('path.question.asstes', $path.'/asstes');
+        $this->app->instance('path.question.lang', $path.'/resource/lang');
 
         // register cntainer aliases
         $this->registerContainerAliases();
