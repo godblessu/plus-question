@@ -56,10 +56,19 @@ class QuestionController extends Controller
             $user->questions()->save($question);
 
             // Save relation.
-            $user->getConnection()->transaction(function () use ($question, $user, $topics, $users) {
+            $user->getConnection()->transaction(function () use (
+                $question, $user, $topics, $users,
+                $topicModel, $topicsIDs
+            ) {
 
                 // Sync topics.
                 $question->topics()->sync($topics);
+
+                // Topics questions_count +1
+                $topicModel->whereIn('id', $topicsIDs)->increment('questions_count', 1);
+
+                // User questions_count +1
+                $user->extra()->firstOrCreate([])->increment('questions_count', 1);
             });
         } catch (\Exception $exception) {
 
