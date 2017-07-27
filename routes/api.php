@@ -50,5 +50,14 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                 $api->delete('/{topic}', API2\TopicUserController::class.'@destroy');
             });
         });
+
+        // Question.
+        // @Route /api/v2/questions
+        $api->group(['prefix' => 'questions'], function (RouteRegisterContract $api) {
+
+            // Publish a question.
+            // @Post /api/v2/questions
+            $api->post('/', API2\QuestionController::class.'@store');
+        });
     });
 });
