@@ -38,7 +38,7 @@ class Topic extends Model implements ShouldAvatarContract
     /**
      * Topic followers.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
      * @author Seven Du <shiweidu@outlook.com>
      */
     public function followers()
@@ -51,7 +51,7 @@ class Topic extends Model implements ShouldAvatarContract
     /**
      * Topic experts.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
      * @author Seven Du <shiweidu@outlook.com>
      */
     public function experts()
@@ -59,6 +59,18 @@ class Topic extends Model implements ShouldAvatarContract
         return $this->belongsToMany(User::class)
             ->using(TopicExpert::class)
             ->withTimestamps();
+    }
+
+    /**
+     * Has questions for the topic.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class, 'question_topic')
+            ->using(QuestionTopic::class);
     }
 
     /**
