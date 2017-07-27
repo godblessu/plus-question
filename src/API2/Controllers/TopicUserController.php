@@ -59,7 +59,10 @@ class TopicUserController extends Controller
             return $response->json(['message' => [$message]], 422);
         }
 
-        $user->questionTopics()->attach($topic);
+        $topic->getConnection()->transaction(function () use ($topic, $user) {
+            $topic->increment('follows_count', 1);
+            $user->questionTopics()->attach($topic);
+        });
 
         return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
     }
@@ -79,7 +82,16 @@ class TopicUserController extends Controller
             $request->user()
         );
 
-        $user->questionTopics()->detach($topic);
+        if (! $user->questionTopics()->newPivotStatementForId($topic->id)->first()) {
+            $message = trans('plus-question::topics.not-follow', ['name' => $topic->name]);
+
+            return $response->json(['message' => [$message]], 422);
+        }
+
+        $topic->getConnection()->transaction(function () use ($topic, $user) {
+            $topic->decrement('follows_count', 1);
+            $user->questionTopics()->detach($topic);
+        });
 
         return $response->make(null, 204);
     }
