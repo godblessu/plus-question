@@ -16,9 +16,32 @@ use Illuminate\Contracts\Routing\Registrar as RouteRegisterContract;
 */
 
 Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
+
+    // Question topics.
+    // @Route /api/v2/question-topics
     $api->group(['prefix' => 'question-topics'], function (RouteRegisterContract $api) {
 
         // Question topics
+        // @Get /api/v2/quest-topics
         $api->get('/', API2\TopicController::class.'@index');
+    });
+
+    // @Auth api.
+    // @Route /api/v2
+    $api->group(['middleware' => 'auth:api'], function (RouteRegisterContract $api) {
+
+        // User
+        // @Route /api/v2/user
+        $api->group(['prefix' => 'user'], function (RouteRegisterContract $api) {
+
+            // Starred question topics.
+            // @Route /api/v2/user/question-topics
+            $api->group(['prefix' => 'question-topics'], function (RouteRegisterContract $api) {
+
+                // Get Starred question topics of the authenticated user.
+                // @Get /api/v2/user/question-topics
+                $api->get('/', API2\TopicUserController::class.'@index');
+            });
+        });
     });
 });
