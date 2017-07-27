@@ -3,6 +3,7 @@
 namespace SlimKit\PlusQuestion\API2\Controllers;
 
 use Illuminate\Http\Request;
+use SlimKit\PlusQuestion\Models\Topic as TopicModel;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
 
 class TopicUserController extends Controller
@@ -10,8 +11,8 @@ class TopicUserController extends Controller
     /**
      * Get all topics of the authenticated user.
      *
-     * @param Request $request
-     * @param ResponseFactoryContract $response
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
      * @return mixed
      * @author Seven Du <shiweidu@outlook.com>
      */
@@ -35,5 +36,29 @@ class TopicUserController extends Controller
             ->get();
 
         return $response->json($topics, 200);
+    }
+
+    /**
+     * Follow a topic.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Topic $topic
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function store(Request $request, ResponseFactoryContract $response, TopicModel $topic)
+    {
+        $user = $this->resolveUser(
+            $request->user()
+        );
+
+        if ($user->questionTopics()->newPivotStatementForId($topic->id)->first()) {
+            return $response->json(['message' => ['已关注了该话题，请勿重复操作']], 422);
+        }
+
+        $user->questionTopics()->attach($topic);
+
+        return $response->json(['message' => ['操作成功']], 201);
     }
 }

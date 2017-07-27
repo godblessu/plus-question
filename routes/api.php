@@ -38,9 +38,13 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // @Route /api/v2/user/question-topics
             $api->group(['prefix' => 'question-topics'], function (RouteRegisterContract $api) {
 
-                // Get Starred question topics of the authenticated user.
+                // Get follow question topics of the authenticated user.
                 // @Get /api/v2/user/question-topics
                 $api->get('/', API2\TopicUserController::class.'@index');
+
+                // Follow a question topics.
+                // @Put /api/v2/user/question-topics/:topic
+                $api->put('/{topic}', API2\TopicUserController::class.'@store');
             });
         });
     });

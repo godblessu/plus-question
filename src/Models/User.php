@@ -15,7 +15,8 @@ class User extends Model
     public function questionTopics()
     {
         return $this->belongsToMany(Topic::class, 'topic_user')
-            ->using(TopicUser::class);
+            ->using(TopicUser::class)
+            ->withTimestamps();
     }
 
     /**
@@ -27,6 +28,7 @@ class User extends Model
     public function belongTopics()
     {
         return $this->belongsToMany(Topic::class, 'topic_expert')
-            ->using(TopicExpert::class);
+            ->using(TopicExpert::class)
+            ->withTimestamps();
     }
 }

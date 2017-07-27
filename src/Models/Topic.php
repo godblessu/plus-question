@@ -44,7 +44,8 @@ class Topic extends Model implements ShouldAvatarContract
     public function followers()
     {
         return $this->belongsToMany(User::class)
-            ->using(TopicUser::class);
+            ->using(TopicUser::class)
+            ->withTimestamps();
     }
 
     /**
@@ -56,7 +57,8 @@ class Topic extends Model implements ShouldAvatarContract
     public function experts()
     {
         return $this->belongsToMany(User::class)
-            ->using(TopicExpert::class);
+            ->using(TopicExpert::class)
+            ->withTimestamps();
     }
 
     /**
