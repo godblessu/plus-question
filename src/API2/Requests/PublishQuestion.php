@@ -34,7 +34,7 @@ class PublishQuestion extends FormRequest
             'topics' => 'bail|required|array',
             'topics.*.id' => 'bail|required_with:topics|distinct|exists:topics,id',
             'invitations' => 'nullable|array',
-            'invitations.*.user' => 'bail|required_with:invitations|distinct|not_in:'.$this->user()->id.'|exists:users,id'
+            'invitations.*.user' => 'bail|required_with:invitations|distinct|not_in:'.$this->user()->id.'|exists:users,id',
         ];
     }
 
