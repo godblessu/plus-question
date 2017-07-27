@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     'attributes' => [
         'subject' => '主题',
         'topics' => '话题',
