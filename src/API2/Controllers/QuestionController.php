@@ -69,6 +69,11 @@ class QuestionController extends Controller
 
                 // User questions_count +1
                 $user->extra()->firstOrCreate([])->increment('questions_count', 1);
+
+                // Sync invitations
+                if (! empty($users)) {
+                    $question->invitations()->sync($users);
+                }
             });
         } catch (\Exception $exception) {
 
