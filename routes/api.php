@@ -45,6 +45,9 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                 // Follow a question topics.
                 // @Put /api/v2/user/question-topics/:topic
                 $api->put('/{topic}', API2\TopicUserController::class.'@store');
+
+                // Unfollow a question topics.
+                $api->delete('/{topic}', API2\TopicUserController::class.'@destroy');
             });
         });
     });

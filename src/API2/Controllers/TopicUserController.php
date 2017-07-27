@@ -63,4 +63,24 @@ class TopicUserController extends Controller
 
         return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
     }
+
+    /**
+     * Unfollow a topic.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Topic $topic
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function destroy(Request $request, ResponseFactoryContract $response, TopicModel $topic)
+    {
+        $user = $this->resolveUser(
+            $request->user()
+        );
+
+        $user->questionTopics()->detach($topic);
+
+        return $response->make(null, 204);
+    }
 }
