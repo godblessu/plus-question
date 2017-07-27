@@ -32,7 +32,9 @@ class PublishQuestion extends FormRequest
             'amount' => 'nullable|integer|max:'.$this->user()->wallet->balance,
             'look' => 'nullable|integer|in:0,1',
             'topics' => 'bail|required|array',
-            'topics.*.id' => 'bail|required|distinct|exists:topics,id',
+            'topics.*.id' => 'bail|required_with:topics|distinct|exists:topics,id',
+            'invitations' => 'nullable|array',
+            'invitations.*.user' => 'bail|required_with:invitations|distinct|not_in:'.$this->user()->id.'|exists:users,id'
         ];
     }
 
@@ -47,6 +49,7 @@ class PublishQuestion extends FormRequest
         return [
             'subject.regex' => trans('plus-question::questions.Attribute must end with a question mark'),
             'amount.max' => trans('plus-question::questions.Insufficient balance'),
+            'invitations.*.user.not_in' => trans('plus-question::questions.Can not invite yourself'),
         ];
     }
 
@@ -63,6 +66,7 @@ class PublishQuestion extends FormRequest
             'topics.*.id' => trans('plus-question::questions.attributes.topics'),
             'anonymity' => trans('plus-question::questions.attributes.anonymity'),
             'look' => trans('plus-question::questions.attributes.look'),
+            'invitations.*.user' => trans('plus-question::questions.attributes.user'),
         ];
     }
 }
