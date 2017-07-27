@@ -2,7 +2,6 @@
 
 namespace SlimKit\PlusQuestion\Models;
 
-use Zhiyi\Plus\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Zhiyi\Plus\Models\Concerns\HasAvatar;
 use Zhiyi\Plus\Contracts\Model\ShouldAvatar as ShouldAvatarContract;
@@ -16,7 +15,7 @@ class Topic extends Model implements ShouldAvatarContract
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'pivot'];
 
     /**
      * The accessors to append to the model's array form.
