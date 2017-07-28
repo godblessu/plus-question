@@ -12,6 +12,18 @@ use SlimKit\PlusQuestion\API2\Requests\PublishQuestion as PublishQuestionRequest
 
 class QuestionController extends Controller
 {
+    /**
+     * Publish a question.
+     *
+     * @param \SlimKit\PlusQuestion\API2\Requests\PublishQuestion $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Question $question
+     * @param \SlimKit\PlusQuestion\Models\Topic $topicModel
+     * @param \SlimKit\PlusQuestion\Models\User $userModel
+     * @param \Zhiyi\Plus\Models\WalletCharge $charge
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function store(PublishQuestionRequest $request,
                           ResponseFactoryContract $response,
                           QuestionModel $question,

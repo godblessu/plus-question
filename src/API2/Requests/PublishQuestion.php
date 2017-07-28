@@ -62,6 +62,7 @@ class PublishQuestion extends FormRequest
     {
         return [
             'subject' => trans('plus-question::questions.attributes.subject'),
+            'body' => trans('plus-question::questions.attributes.body'),
             'topics' => trans('plus-question::questions.attributes.topics'),
             'topics.*.id' => trans('plus-question::questions.attributes.topics'),
             'anonymity' => trans('plus-question::questions.attributes.anonymity'),
