@@ -2,6 +2,7 @@
 
 namespace SlimKit\PlusQuestion\API2\Controllers;
 
+use Zhiyi\Plus\Contracts\FindMarkdownFileTrait;
 use SlimKit\PlusQuestion\Models\User as UserModel;
 use SlimKit\PlusQuestion\Models\Topic as TopicModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
@@ -12,6 +13,8 @@ use SlimKit\PlusQuestion\API2\Requests\PublishQuestion as PublishQuestionRequest
 
 class QuestionController extends Controller
 {
+    use FindMarkdownFileTrait;
+
     /**
      * Publish a question.
      *
@@ -44,6 +47,7 @@ class QuestionController extends Controller
         $automaticity = $request->input('automaticity') ? 1 : 0;
         $topicsIDs = array_pluck((array) $request->input('topics', []), 'id');
         $usersIDs = array_pluck((array) $request->input('invitations', []), 'user');
+        $images = $this->findMarkdownImageNotWithModels($body ?: '');
 
         if ($automaticity && ! $amount) {
             return $response->json(['amount' => [trans('plus-question::questions.回答自动入账必须设置悬赏总额')]], 422);
@@ -84,7 +88,7 @@ class QuestionController extends Controller
             $user->getConnection()->transaction(function () use (
                 $question, $user, $topics, $users,
                 $topicModel, $topicsIDs,
-                $charge
+                $charge, $images
             ) {
 
                 // Sync topics.
@@ -106,6 +110,13 @@ class QuestionController extends Controller
                     $user->walletCharges()->save($charge);
                     $user->wallet()->decrement('balance', $charge->amount);
                 }
+
+                // Update images.
+                $images->each(function ($image) use ($question) {
+                    $image->channel = 'question:images';
+                    $image->raw = $question->id;
+                    $image->save();
+                });
             });
         } catch (\Exception $exception) {
 
