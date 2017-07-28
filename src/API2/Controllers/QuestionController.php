@@ -27,7 +27,6 @@ class QuestionController extends Controller
         $body = $request->input('body');
         $anonymity = $request->input('anonymity') ? 1 : 0;
         $amount = intval($request->input('amount')) ?: 0;
-        $automaticity = $request->input('automaticity') ? 1 : 0;
         $look = $request->input('look') ? 1 : 0;
         $automaticity = $request->input('automaticity') ? 1 : 0;
         $topicsIDs = array_pluck((array) $request->input('topics', []), 'id');
@@ -37,6 +36,8 @@ class QuestionController extends Controller
             return $response->json(['amount' => [trans('plus-question::questions.回答自动入账必须设置悬赏总额')]], 422);
         } elseif ($automaticity && count($usersIDs) !== 1) {
             return $response->json(['invitations' => [trans('plus-question::questions.回答自动入账只能邀请一人')]], 422);
+        } elseif ($look && ! $amount) {
+            return $response->json(['amount' => [trans('plus-question::question.开启围观必须设置悬赏金额')]], 422);
         }
 
         // Find topics.
