@@ -10,6 +10,8 @@ return [
         'user' => '用户',
     ],
 
+    'invitation' => ':user 邀请你回答问题《:question》',
+
     'Attribute must end with a question mark' => '主题必须以问号结尾',
     'Insufficient balance' => '余额不足',
     'Can not invite yourself' => '不能邀请自己',

@@ -101,6 +101,21 @@ class QuestionController extends Controller
             throw $exception;
         }
 
+        // 给用户发送邀请通知.
+        $users->each(function (UserModel $item) use ($user, $question) {
+            $item->sendNotifyMessage(
+                'question',
+                trans('plus-question::questions.invitation', [
+                    'user' => $user->name,
+                    'question' => $question->subject,
+                ]),
+                [
+                    'user' => $user,
+                    'question' => $question,
+                ]
+            );
+        });
+
         return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
     }
 }
