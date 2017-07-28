@@ -4,6 +4,7 @@ namespace SlimKit\PlusQuestion\API2\Controllers;
 
 use SlimKit\PlusQuestion\Models\User as UserModel;
 use SlimKit\PlusQuestion\Models\Topic as TopicModel;
+use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
 use SlimKit\PlusQuestion\Models\Question as QuestionModel;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
 use SlimKit\PlusQuestion\API2\Requests\PublishQuestion as PublishQuestionRequest;
@@ -14,7 +15,8 @@ class QuestionController extends Controller
                           ResponseFactoryContract $response,
                           QuestionModel $question,
                           TopicModel $topicModel,
-                          UserModel $userModel)
+                          UserModel $userModel,
+                          WalletChargeModel $charge)
     {
         $user = $this->resolveUser(
             $request->user()
@@ -50,6 +52,15 @@ class QuestionController extends Controller
         $question->automaticity = $automaticity;
         $question->look = $look;
 
+        // Charge
+        $charge->user_id = $user->id;
+        $charge->channel = 'system';
+        $charge->action = 0;
+        $charge->amount = $amount;
+        $charge->subject = '发布悬赏问答';
+        $charge->body = sprintf('发布悬赏问答《%s》', $question->subject);
+        $charge->status = 1;
+
         try {
 
             // Save question.
@@ -58,7 +69,8 @@ class QuestionController extends Controller
             // Save relation.
             $user->getConnection()->transaction(function () use (
                 $question, $user, $topics, $users,
-                $topicModel, $topicsIDs
+                $topicModel, $topicsIDs,
+                $charge
             ) {
 
                 // Sync topics.
@@ -73,6 +85,12 @@ class QuestionController extends Controller
                 // Sync invitations
                 if (! empty($users)) {
                     $question->invitations()->sync($users);
+                }
+
+                // Save charage 
+                if ($charge->amount) {
+                    $user->walletCharges()->save($charge);
+                    $user->wallet()->decrement('balance', $charge->amount);
                 }
             });
         } catch (\Exception $exception) {
