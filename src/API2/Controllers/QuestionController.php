@@ -57,8 +57,8 @@ class QuestionController extends Controller
         $charge->channel = 'system';
         $charge->action = 0;
         $charge->amount = $amount;
-        $charge->subject = '发布悬赏问答';
-        $charge->body = sprintf('发布悬赏问答《%s》', $question->subject);
+        $charge->subject = trans('plus-question::questions.发布悬赏问答');
+        $charge->body = trans('plus-question::questions.发布悬赏问答《%s》', ['subject' => $question->subject]);
         $charge->status = 1;
 
         try {
