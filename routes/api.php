@@ -62,6 +62,15 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // Update a question.
             // $Patch /api/v2/questions/:question
             $api->patch('/{question}', API2\QuestionController::class.'@update');
+
+            // Answer.
+            // @Route /api/v2/question/:question/answers
+            $api->group(['prefix' => '{question}/answers'], function (RouteRegisterContract $api) {
+
+                // Send a answer for the question.
+                // @Post /api/v2/questions/:question/answers
+                $api->post('/', API2\AnswerController::class.'@store');
+            });
         });
     });
 });
