@@ -87,7 +87,7 @@ class QuestionController extends Controller
                     $question->invitations()->sync($users);
                 }
 
-                // Save charage 
+                // Save charage
                 if ($charge->amount) {
                     $user->walletCharges()->save($charge);
                     $user->wallet()->decrement('balance', $charge->amount);
