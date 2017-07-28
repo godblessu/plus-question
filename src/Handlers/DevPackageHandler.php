@@ -35,7 +35,10 @@ class DevPackageHandler extends \Zhiyi\Plus\Support\PackageHandler
     public function createMigrationHandle(Command $command)
     {
         // Resolve migration file path.
-        $path = str_replace($this->app->basePath(), '', $this->app->make('path.question.migration'));
+        $path = $this->pathRelative(
+            $this->app->basePath(),
+            $this->app->make('path.question.migration')
+        );
 
         // Ask table name.
         $table = $command->ask('Enter the table name');
@@ -52,5 +55,40 @@ class DevPackageHandler extends \Zhiyi\Plus\Support\PackageHandler
             '--table' => $table,
             '--create' => $create,
         ]);
+    }
+
+    /**
+     * Path relative.
+     *
+     * @param string $fromPath
+     * @param string $toPath
+     * @return string
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    protected function pathRelative(string $fromPath, string $toPath): string
+    {
+        $fromPath = str_replace('\\', '/', realpath($fromPath));
+        $toPath = str_replace('\\', '/', realpath($toPath));
+
+        $fromParts = explode('/', $fromPath);
+        $toParts = explode('/', $toPath);
+
+        $length = min(count($fromParts), count($toParts));
+        $samePartsLength = $length;
+        for ($i = 0; $i < $length; $i++) {
+            if ($fromParts[$i] !== $toParts[$i]) {
+                $samePartsLength = $i;
+                break;
+            }
+        }
+
+        $outputParts = [];
+        for ($i = $samePartsLength; $i < count($fromParts); $i++) {
+            array_push($outputParts, '..');
+        }
+
+        $outputParts = array_merge($outputParts, array_slice($toParts, $samePartsLength) ?: []);
+
+        return implode('/', $outputParts);
     }
 }
