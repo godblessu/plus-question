@@ -23,7 +23,7 @@ class QuestionController extends Controller
         );
 
         // Get question base data.
-        $subject = str_replace('?', '？', $request->input('subject'));
+        $subject = $request->input('subject');
         $body = $request->input('body');
         $anonymity = $request->input('anonymity') ? 1 : 0;
         $amount = intval($request->input('amount')) ?: 0;
