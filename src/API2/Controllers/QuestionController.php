@@ -7,6 +7,7 @@ use SlimKit\PlusQuestion\Models\Topic as TopicModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
 use SlimKit\PlusQuestion\Models\Question as QuestionModel;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
+use SlimKit\PlusQuestion\API2\Requests\UpdateQuestion as UpdateQuestionRequest;
 use SlimKit\PlusQuestion\API2\Requests\PublishQuestion as PublishQuestionRequest;
 
 class QuestionController extends Controller
@@ -118,5 +119,27 @@ class QuestionController extends Controller
         });
 
         return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
+    }
+
+    /**
+     * Update a question.
+     *
+     * @param \SlimKit\PlusQuestion\API2\Requests\UpdateQuestion $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Question $question
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function update(UpdateQuestionRequest $request,
+                           ResponseFactoryContract $response,
+                           QuestionModel $question)
+    {
+        foreach (array_filter($request->only(['subject', 'body'])) as $key => $value) {
+            $question->$key = $value;
+        }
+
+        $question->save();
+
+        return $response->make(null, 204);
     }
 }

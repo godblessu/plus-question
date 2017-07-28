@@ -58,6 +58,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // Publish a question.
             // @Post /api/v2/questions
             $api->post('/', API2\QuestionController::class.'@store');
+
+            // Update a question.
+            // $Patch /api/v2/questions/:question
+            $api->patch('/{question}', API2\QuestionController::class.'@update');
         });
     });
 });

@@ -8,6 +8,7 @@ return [
         'anonymity' => '匿名',
         'look' => '围观',
         'user' => '用户',
+        'body' => '详情',
     ],
 
     'invitation' => ':user 邀请你回答问题《:question》',
