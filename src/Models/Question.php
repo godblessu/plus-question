@@ -28,4 +28,15 @@ class Question extends Model
     {
         return $this->belongsToMany(User::class, 'question_invitation');
     }
+
+    /**
+     * Has answers for the question.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|null
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'id', 'question_id');
+    }
 }
