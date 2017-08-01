@@ -141,7 +141,10 @@ class QuestionController extends Controller
             );
         });
 
-        return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
+        return $response->json([
+            'message' => [trans('plus-question::messages.success')],
+            'question' => $question,
+        ], 201);
     }
 
     /**

@@ -31,7 +31,19 @@ Status: 201 Created
 {
     "message": [
         "操作成功"
-    ]
+    ],
+    "question": {
+        "subject": "再测试一个问题?",
+        "body": null,
+        "anonymity": 1,
+        "amount": 0,
+        "automaticity": 0,
+        "look": 0,
+        "user_id": 1,
+        "updated_at": "2017-08-01 06:06:37",
+        "created_at": "2017-08-01 06:06:37",
+        "id": 2
+    }
 }
 ```
 
