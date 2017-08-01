@@ -54,6 +54,7 @@ class AnswerController extends Controller
 
             // Count
             $question->increment('answers_count', 1);
+            $user->extra()->firstOrCreate([])->increment('answers_count', 1);
 
             // Update images.
             $images->each(function ($image) use ($answer) {
