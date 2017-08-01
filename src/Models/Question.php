@@ -26,7 +26,8 @@ class Question extends Model
      */
     public function invitations()
     {
-        return $this->belongsToMany(User::class, 'question_invitation');
+        return $this->belongsToMany(User::class, 'question_invitation')
+            ->withTimestamps();
     }
 
     /**
@@ -49,5 +50,18 @@ class Question extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Has watch users for the question.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function watchers()
+    {
+        return $this->belongsToMany(User::class, 'question_watcher')
+            ->using(QuestionWatcher::class)
+            ->withTimestamps();
     }
 }
