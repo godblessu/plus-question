@@ -42,4 +42,17 @@ class User extends Model
     {
         return $this->hasMany(Question::class, 'user_id', 'id');
     }
+
+    /**
+     * Has watching questions for the user.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany|null
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function watchingQuestions()
+    {
+        return $this->belongsToMany(Question::class, 'question_watcher')
+            ->using(QuestionWatcher::class)
+            ->withTimestamps();
+    }
 }
