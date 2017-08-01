@@ -23,6 +23,7 @@ class CreateAnswersTable extends Migration
             $table->tinyInteger('invited')->nullable()->default(0)->comment('是否是被邀请回答');
             $table->integer('comments_count')->nullable()->default(0)->comment('问题评论统计');
             $table->integer('rewards_amount')->unsigned()->nullable()->default(0)->comment('打赏总额');
+            $table->integer('rewarder_count')->unsigned()->nullable()->default(0)->comment('打赏的人统计');
             $table->integer('likes_count')->nullable()->default(0)->comment('喜欢数量统计');
             $table->timestamps();
         });
