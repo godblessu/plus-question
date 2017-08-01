@@ -26,8 +26,7 @@ class Question extends Model
      */
     public function invitations()
     {
-        return $this->belongsToMany(User::class, 'question_invitation')
-            ->withTimestamps();
+        return $this->belongsToMany(User::class, 'question_invitation');
     }
 
     /**

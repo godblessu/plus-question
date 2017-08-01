@@ -92,6 +92,9 @@ class AnswerController extends Controller
             'user' => $user,
         ]);
 
-        return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
+        return $response->json([
+            'message' => [trans('plus-question::messages.success')],
+            'answer' => $answer,
+        ], 201);
     }
 }
