@@ -55,4 +55,37 @@ class TopicController extends Controller
             return $topic->setRelations([]);
         }) : $topics)->setStatusCode(200);
     }
+
+    /**
+     * Get a single topic.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Topic $topic
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function show(Request $request, ResponseFactoryContract $response, TopicModel $topic)
+    {
+        $userId = $request->user('api')->id ?? 0;
+        $loadMap = ['experts' => function ($query) {
+            $query->limit(5);
+        }];
+
+        if ($userId) {
+            $loadMap['followers'] = function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            };
+        }
+
+        $topic->addHidden('followers');
+        $topic->load($loadMap);
+        $topic->has_follow = false;
+
+        if ($topic->relationLoaded('followers') && $topic->followers->isNotEmpty()) {
+            $topic->has_follow = true;
+        }
+
+        return $response->json($topic, 200);
+    }
 }

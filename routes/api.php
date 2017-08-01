@@ -24,6 +24,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         // Question topics
         // @Get /api/v2/quest-topics
         $api->get('/', API2\TopicController::class.'@index');
+
+        // Get a single topic.
+        // @GET /api/v2/question-topics/:topic
+        $api->get('/{topic}', API2\TopicController::class.'@show');
     });
 
     // @Auth api.
