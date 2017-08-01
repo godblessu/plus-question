@@ -39,4 +39,15 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class, 'question_id', 'id');
     }
+
+    /**
+     * Has the user for question.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
