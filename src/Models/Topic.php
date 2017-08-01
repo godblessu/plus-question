@@ -56,7 +56,7 @@ class Topic extends Model implements ShouldAvatarContract
      */
     public function experts()
     {
-        return $this->belongsToMany(User::class)
+        return $this->belongsToMany(User::class, 'topic_expert')
             ->using(TopicExpert::class)
             ->withTimestamps();
     }
