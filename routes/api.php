@@ -28,6 +28,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         // Get a single topic.
         // @GET /api/v2/question-topics/:topic
         $api->get('/{topic}', API2\TopicController::class.'@show');
+
+        // Get all experts for the topics.
+        // @GET /api/v2/question-topics/:topic/experts
+        $api->get('/{topic}/experts', API2\TopicExpertController::class.'index');
     });
 
     // @Auth api.
