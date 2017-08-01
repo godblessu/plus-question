@@ -84,7 +84,7 @@ class AnswerController extends Controller
             ($answer->invited && ! $invitedAnswer)
                 ? 'plus-question::answers.notifications.invited'
                 : 'plus-question::answers.notifications.answer',
-            ['user' $user->name]
+            ['user' => $user->name]
         );
         $question->user->sendNotifyMessage('question:answer', $message, [
             'question' => $question,
