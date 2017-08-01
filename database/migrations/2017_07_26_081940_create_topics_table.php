@@ -17,8 +17,9 @@ class CreateTopicsTable extends Migration
             $table->increments('id')->comment('话题ID');
             $table->string('name', 100)->comment('话题名称');
             $table->string('description')->nullable()->default(null)->comment('话题描述');
-            $table->integer('questions_count')->nullable()->default(0)->comment('话题问题统计');
-            $table->integer('follows_count')->nullable()->default(0)->comment('话题关注者统计');
+            $table->integer('questions_count')->unsigned()->nullable()->default(0)->comment('话题问题统计');
+            $table->integer('follows_count')->unsigned()->nullable()->default(0)->comment('话题关注者统计');
+            $table->integer('experts_count')->unsigned()->nullable()->default(0)->comment('话题下的专家统计');
             $table->timestamps();
 
             $table->index('name');
