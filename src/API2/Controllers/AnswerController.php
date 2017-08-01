@@ -28,9 +28,7 @@ class AnswerController extends Controller
                           AnswerModel $answer,
                           QuestionModel $question)
     {
-        $user = $this->resolveUser(
-            $request->user()
-        );
+        $user = $request->user();
 
         $anonymity = $request->input('anonymity') ? 1 : 0;
         $body = $request->input('body');

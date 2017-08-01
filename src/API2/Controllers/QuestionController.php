@@ -34,9 +34,7 @@ class QuestionController extends Controller
                           UserModel $userModel,
                           WalletChargeModel $charge)
     {
-        $user = $this->resolveUser(
-            $request->user()
-        );
+        $user = $request->user();
 
         // Get question base data.
         $subject = $request->input('subject');

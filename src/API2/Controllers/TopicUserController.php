@@ -18,7 +18,7 @@ class TopicUserController extends Controller
      */
     public function index(Request $request, ResponseFactoryContract $response)
     {
-        $user = $this->resolveUser($request->user());
+        $user = $request->user();
         $limit = min(50, max(1, intval($request->query('limit', 20))));
         $after = $request->query('after', false);
         $type = in_array(($type = $request->query('type', 'follow')), ['follow', 'expert']) ? $type : 'follow';
@@ -49,9 +49,7 @@ class TopicUserController extends Controller
      */
     public function store(Request $request, ResponseFactoryContract $response, TopicModel $topic)
     {
-        $user = $this->resolveUser(
-            $request->user()
-        );
+        $user = $request->user();
 
         if ($user->questionTopics()->newPivotStatementForId($topic->id)->first()) {
             $message = trans('plus-question::topics.followed', ['name' => $topic->name]);
@@ -78,9 +76,7 @@ class TopicUserController extends Controller
      */
     public function destroy(Request $request, ResponseFactoryContract $response, TopicModel $topic)
     {
-        $user = $this->resolveUser(
-            $request->user()
-        );
+        $user = $request->user();
 
         if (! $user->questionTopics()->newPivotStatementForId($topic->id)->first()) {
             $message = trans('plus-question::topics.not-follow', ['name' => $topic->name]);
