@@ -2,6 +2,7 @@
 
 namespace SlimKit\PlusQuestion\Models;
 
+use Zhiyi\Plus\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Zhiyi\Plus\Models\Concerns\HasAvatar;
 use Zhiyi\Plus\Contracts\Model\ShouldAvatar as ShouldAvatarContract;

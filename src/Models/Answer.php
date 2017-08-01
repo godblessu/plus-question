@@ -2,6 +2,7 @@
 
 namespace SlimKit\PlusQuestion\Models;
 
+use Zhiyi\Plus\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
