@@ -2,6 +2,7 @@
 
 - [获取全部话题](#获取全部话题)
 - [获取认证用户关注的话题或者专家话题](#获取认证用户关注的话题或者专家话题)
+- [获取一个话题](#获取一个话题)
 - [关注一个话题](#关注一个话题)
 - [取消关注一个话题](#取消关注一个话题)
 
@@ -88,6 +89,57 @@ Status: 200 OK
 | questions_count | 话题下的问题数量统计 |
 | follows_count | 话题下的关注用户统计 |
 | avatar | 话题头像，如果存在则为「字符串」，否则固定值 `null` |
+
+## 获取一个话题
+
+```
+GET /question-topics/:topic
+```
+
+#### 响应
+
+```
+Status: 200 OK
+```
+```json
+{
+    "id": 1,
+    "name": "PHP",
+    "description": "我是PHP",
+    "questions_count": 5,
+    "experts_count": 1,
+    "follows_count": 0,
+    "has_follow": false,
+    "avatar": null,
+    "experts": [
+        {
+            "id": 2,
+            "name": "test1",
+            "bio": "0",
+            "sex": 0,
+            "location": "0",
+            "created_at": "2017-06-12 07:38:55",
+            "updated_at": "2017-06-12 07:38:55",
+            "avatar": null,
+            "bg": null,
+            "verified": null,
+            "extra": null
+        }
+    ]
+}
+```
+
+| 字段 | 描述 |
+| id | 话题的唯一标识。 |
+| name | 话题名称。 | 
+| description | 话题详细描述。 |
+| questions_count | 话题下的问题数量。 |
+| experts_count | 话题下的专家数量。 |
+| follows_count | 话题的关注者数量。 |
+| has_follow | 当前用户是否关注了话题。 |
+| avatar | 话题头像，如果没有头像则为 `null`，存在则为一个 URI。 |
+| experts | 话题下的专家预览。按照设计图，返回五个用户。 |
+
 
 ## 关注一个话题
 
