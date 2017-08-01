@@ -72,23 +72,25 @@ class AnswerController extends Controller
                 $charge->account = $question->id;
                 $charge->action = 1;
                 $charge->amount = $question->amount;
-                $charge->subject = '回答被邀请的问答问题';
-                $charge->body = sprintf('回答问题《%s》', $question->subject);
+                $charge->subject = trans('plus-question::answers.charges.invited.subject');
+                $charge->body = trans('plus-question::answers.charges.invited.body', ['body' => $question->subject]);
                 $charge->status = 1;
 
                 $user->walletCharges()->save($charge);
             }
         });
 
-        $question->user->sendNotifyMessage(
-            'question:answer',
-            sprintf(($answer->invited && ! $invitedAnswer) ? '你邀请%s已回答了你的问题' : '你的问题被%s回答', $user->name),
-            [
-                'question' => $question,
-                'answer' => $answer,
-                'user' => $user,
-            ]
+        $message = trans(
+            ($answer->invited && ! $invitedAnswer)
+                ? 'plus-question::answers.notifications.invited'
+                : 'plus-question::answers.notifications.answer',
+            ['user' $user->name]
         );
+        $question->user->sendNotifyMessage('question:answer', $message, [
+            'question' => $question,
+            'answer' => $answer,
+            'user' => $user,
+        ]);
 
         return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
     }
