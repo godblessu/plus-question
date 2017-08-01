@@ -33,6 +33,7 @@
         "laravel": {
             "providers": [
                 "SlimKit\\PlusQuestion\\Providers\\AppServiceProvider",
+                "SlimKit\\PlusQuestion\\Providers\\ModelServiceProvider",
                 "SlimKit\\PlusQuestion\\Providers\\RouteServiceProvider"
             ]
         }
