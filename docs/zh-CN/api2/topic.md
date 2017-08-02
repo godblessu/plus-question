@@ -5,6 +5,7 @@
 - [获取一个话题](#获取一个话题)
 - [关注一个话题](#关注一个话题)
 - [取消关注一个话题](#取消关注一个话题)
+- [获取话题下专家列表](#获取话题下专家列表)
 
 ## 获取全部话题
 
@@ -171,3 +172,58 @@ DELETE /user/question-topics/:topic
 ```
 Status: 204 No Content
 ```
+
+## 获取话题下专家列表
+
+```
+GET /question-topics/:topic/experts
+```
+
+#### 参数
+
+| 名称 | 类型 | 描述 |
+| after | Integer | 上一次请求获取的最后一条 ID，或者指定某条 ID 之后的数据。 |
+
+#### 响应
+
+```
+Status: 200 OK
+```
+```json
+[
+    {
+        "id": 1,
+        "name": "Seven",
+        "bio": "Seven 的个人传记",
+        "sex": 2,
+        "location": "成都 中国",
+        "created_at": "2017-06-02 08:43:54",
+        "updated_at": "2017-07-25 03:59:39",
+        "following": false,
+        "follower": false,
+        "avatar": "http://plus.io/api/v2/users/1/avatar",
+        "bg": "http://plus.io/storage/user-bg/000/000/000/01.png",
+        "verified": null,
+        "extra": {
+            "user_id": 1,
+            "likes_count": 0,
+            "comments_count": 8,
+            "followers_count": 0,
+            "followings_count": 1,
+            "updated_at": "2017-08-01 06:06:37",
+            "feeds_count": 0,
+            "questions_count": 5,
+            "answers_count": 3
+        },
+        "tags": [
+            {
+                "id": 1,
+                "name": "标签1",
+                "tag_category_id": 1
+            }
+        ]
+    }
+]
+```
+
+> 列表资料参见「用户资料」相关文档，这里多的数据为 `tags` 用户标签，用户标签字段说明参见「用户标签」相关文档。
