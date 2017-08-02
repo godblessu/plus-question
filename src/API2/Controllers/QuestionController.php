@@ -2,7 +2,7 @@
 
 namespace SlimKit\PlusQuestion\API2\Controllers;
 
-use Zhiyi\Plus\Contracts\FindMarkdownFileTrait;
+use Zhiyi\Plus\Concerns\FindMarkdownFileTrait;
 use SlimKit\PlusQuestion\Models\User as UserModel;
 use SlimKit\PlusQuestion\Models\Topic as TopicModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
