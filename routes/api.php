@@ -34,6 +34,15 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         $api->get('/{topic}/experts', API2\TopicExpertController::class.'@index');
     });
 
+    // Questions.
+    // @Route /api/v2/questions
+    $api->group(['prefix' => 'questions'], function (RouteRegisterContract $api) {
+
+        // List all questions.
+        // @GET /api/v2/questions
+        $api->get('/', API2\QuestionController::class.'@index');
+    });
+
     // @Auth api.
     // @Route /api/v2
     $api->group(['middleware' => 'auth:api'], function (RouteRegisterContract $api) {

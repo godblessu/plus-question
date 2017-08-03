@@ -2,6 +2,7 @@
 
 namespace SlimKit\PlusQuestion\API2\Controllers;
 
+use Illuminate\Http\Request;
 use Zhiyi\Plus\Concerns\FindMarkdownFileTrait;
 use SlimKit\PlusQuestion\Models\User as UserModel;
 use SlimKit\PlusQuestion\Models\Topic as TopicModel;
@@ -14,6 +15,58 @@ use SlimKit\PlusQuestion\API2\Requests\PublishQuestion as PublishQuestionRequest
 class QuestionController extends Controller
 {
     use FindMarkdownFileTrait;
+
+    /**
+     * List all questions.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Question $questionModel
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function index(Request $request, ResponseFactoryContract $response, QuestionModel $questionModel)
+    {
+        $limit = max(1, min(30, $request->query('limit', 20)));
+        $offset = max(0, $request->query('offset', 0));
+        $map = [
+            'all' => function ($query) {
+                $query->orderBy('id', 'desc');
+            },
+            'new' => function ($query) {
+                $query->where('answers_count', 0)
+                    ->orderBy('id', 'desc');
+            },
+            'hot' => function ($query) use ($questionModel) {
+                $query->whereBetween('created_at', [
+                    $questionModel->freshTimestamp()->subMonth(1),
+                    $questionModel->freshTimestamp()
+                ]);
+                $query->orderBy('answers_count', 'desc');
+            },
+            'reward' => function ($query) {
+                $query->where('amount', '!=', 0)
+                    ->orderBy('id', 'desc');
+            },
+            'excellent' => function ($query) {
+                $query->where('excellent', '!=', 0)
+                    ->orderBy('id', 'desc');
+            },
+        ];
+        $type = in_array($type = $request->query('type', 'new'), array_keys($map)) ? $type : 'new';
+        call_user_func($map[$type], $query = $questionModel->limit($limit)->offset($offset));
+        $questions = $query->get();
+        $questions->load('user');
+
+        return $response->json($questions->map(function (QuestionModel $question) {
+            if ($question->anonymity) {
+                $question->addHidden('user');
+                $question->user_id = 0;
+            }
+
+            return $question;
+        }))->setStatusCode(200);
+    }
 
     /**
      * Publish a question.
