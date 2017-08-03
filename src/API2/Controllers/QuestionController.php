@@ -28,6 +28,7 @@ class QuestionController extends Controller
      */
     public function index(Request $request, ResponseFactoryContract $response, QuestionModel $questionModel)
     {
+        $userID = $request->user('api')->id ?? 0;
         $limit = max(1, min(30, $request->query('limit', 20)));
         $offset = max(0, $request->query('offset', 0));
         $map = [
@@ -59,8 +60,8 @@ class QuestionController extends Controller
         $questions = $query->get();
         $questions->load('user');
 
-        return $response->json($questions->map(function (QuestionModel $question) {
-            if ($question->anonymity) {
+        return $response->json($questions->map(function (QuestionModel $question) use ($userID) {
+            if ($question->anonymity && $question->user_id !== $userID) {
                 $question->addHidden('user');
                 $question->user_id = 0;
             }
