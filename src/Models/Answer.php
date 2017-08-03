@@ -37,7 +37,7 @@ class Answer extends Model
      */
     public function onlookers()
     {
-        return $this->belongsToMany(User::class, 'answer_onlooker', 'user_id', 'answer_id')
+        return $this->belongsToMany(User::class, 'answer_onlooker', 'answer_id', 'user_id')
             ->using(AnswerOnlooker::class)
             ->withTimestamps();
     }
