@@ -135,7 +135,7 @@ class QuestionController extends Controller
             ->where('adoption', '!=', 0)
             ->get()
             ->map($answerResolveCall);
-        
+
         return $response->json($question, 200);
     }
 
