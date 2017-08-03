@@ -10,7 +10,7 @@ class Answer extends Model
     /**
      * Has the question for answer.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne|null
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      * @author Seven Du <shiweidu@outlook.com>
      */
     public function question()
@@ -27,5 +27,18 @@ class Answer extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Has onlookers for answer.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function onlookers()
+    {
+        return $this->belongsToMany(User::class, 'answer_onlooker', 'user_id', 'answer_id')
+            ->using(AnswerOnlooker::class)
+            ->withTimestamps();
     }
 }
