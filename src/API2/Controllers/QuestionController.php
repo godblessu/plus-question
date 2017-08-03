@@ -69,6 +69,15 @@ class QuestionController extends Controller
         }))->setStatusCode(200);
     }
 
+    /**
+     * Get a single question.
+     *
+     * @param Request $request
+     * @param ResponseFactoryContract $response
+     * @param QuestionModel $question
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function show(Request $request, ResponseFactoryContract $response, QuestionModel $question)
     {
         $userID = $request->user('api')->id ?? 0;
@@ -79,16 +88,26 @@ class QuestionController extends Controller
                 $query->where('adoption', 0);
                 $query->orderBy('id', 'desc');
             },
-            'answers.user'
+            'answers.user',
+            'answers.onlookers' => function ($query) use ($userID) {
+                $query->where('id', $userID);
+            },
         ];
         $answerResolveCall = function (AnswerModel $answer) use ($userID, $question) {
+            $answer->addHidden('onlookers');
+            $answer->could = true;
+            if (
+                ($question->automaticity || ($question->lock && $answer->adoption)) &&
+                $answer->onlookers->isEmpty() &&
+                $answer->user_id !== $userID
+            ) {
+                $answer->could = false;
+                $answer->body = null;
+            }
+
             if ($answer->anonymity && $answer->user_id !== $userID) {
                 $answer->addHidden('user');
                 $answer->user_id = 0;
-            }
-
-            if ($question->automaticity || ($question->lock && $answer->adoption)) {
-                # code...
             }
 
             return $answer;
@@ -99,11 +118,19 @@ class QuestionController extends Controller
         } elseif ($question->anonymity) {
             $question->user_id = 0;
         }
+
+        if ($userID) {
+            $loadMap['watchers'] = function ($query) use ($userID) {
+                $query->where('id', $userID);
+            };
+        }
+
         $question->load($loadMap);
-        $question->addHidden('answers');
+        $question->addHidden(['answers', 'watchers']);
+        $question->watched = ! $userID ? false : (bool) $question->watchers()->newPivotStatementForId($userID)->first();
         $question->invitation_answers = $question->answers->map($answerResolveCall);
         $question->adoption_answers = $question->answers()
-            ->with('user')
+            ->with(['user', 'onlookers' => $loadMap['answers.onlookers']])
             ->where('adoption', '!=', 0)
             ->get()
             ->map($answerResolveCall);
