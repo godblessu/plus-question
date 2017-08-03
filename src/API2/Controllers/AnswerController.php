@@ -2,6 +2,7 @@
 
 namespace SlimKit\PlusQuestion\API2\Controllers;
 
+use Illuminate\Http\Request;
 use Zhiyi\Plus\Concerns\FindMarkdownFileTrait;
 use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
@@ -12,6 +13,43 @@ use SlimKit\PlusQuestion\API2\Requests\QuestionAnswer as QuestionAnswerRequest;
 class AnswerController extends Controller
 {
     use FindMarkdownFileTrait;
+
+    /**
+     * Get all answers for question.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Question $question
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function index(Request $request, ResponseFactoryContract $response, QuestionModel $question)
+    {
+        $userID = $request->user('api')->id ?? 0;
+        $offset = max(0, $request->query('offset', 0));
+        $limit = max(1, min(30, $request->query('limit', 20)));
+        $orderMap = [
+            'time' => 'id',
+            'default' => 'likes_count',
+        ];
+        $orderType = in_array($orderType = $request->query('order_type', 'default'), array_keys($orderMap)) ? $orderType : 'default';
+
+        $answers = $question->answers()
+            ->with('user')
+            ->orderBy($orderMap[$orderType], 'desc')
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+
+        return $response->json($answers->map(function (AnswerModel $answer) use ($userID) {
+            if ($answer->anonymity && $answer->user_id !== $userID) {
+                $answer->addHidden('user');
+                $answer->user_id = 0;
+            }
+
+            return $answer;
+        }))->setStatusCode(200);
+    }
 
     /**
      * Append answer to question.
