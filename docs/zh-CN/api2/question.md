@@ -84,6 +84,7 @@ GET /question-topics/:topic/questions
 #### 参数
 
 | 名称 | 类型 | 描述 |
+|:----:|:----:|----|
 | type | 枚举：`all`、`new`、`hot`、`reward`、`excellent` | 默认值 `new`, `all` - 全部、`new` - 最新、`hot` - 热门、`reward` - 悬赏、`excellent` - 精选 。 |
 | limit | Integer | 默认 `20` ，获取列表条数，修正值 `1` - `30`。 |
 | offset | integer | 默认 `0` ，数据偏移量，传递之前通过接口获取的总数。 |
@@ -160,6 +161,7 @@ Status: 200 OK
 ```
 
 | 字段 | 描述 |
+|:----:|----|
 | id | 问题唯一 ID 。 |
 | user_id | 发布的用户 ID，如果是 `anonymity` 是 `1` 则该字段为 `0`。 |
 | subject | 问题标题。 |
