@@ -35,7 +35,7 @@ class TopicQuestionController extends Controller
             'hot' => function ($query) use ($topic) {
                 $query->whereBetween('created_at', [
                     $topic->freshTimestamp()->subMonth(1),
-                    $topic->freshTimestamp()
+                    $topic->freshTimestamp(),
                 ]);
                 $query->orderBy('answers_count', 'desc');
             },

@@ -40,7 +40,7 @@ class QuestionController extends Controller
             'hot' => function ($query) use ($questionModel) {
                 $query->whereBetween('created_at', [
                     $questionModel->freshTimestamp()->subMonth(1),
-                    $questionModel->freshTimestamp()
+                    $questionModel->freshTimestamp(),
                 ]);
                 $query->orderBy('answers_count', 'desc');
             },
