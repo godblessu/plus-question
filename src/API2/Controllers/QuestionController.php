@@ -136,6 +136,9 @@ class QuestionController extends Controller
             ->get()
             ->map($answerResolveCall);
 
+        // The question view count +1.
+        $question->increment('view_count', 1);
+
         return $response->json($question, 200);
     }
 
