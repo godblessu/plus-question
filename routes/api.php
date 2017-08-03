@@ -44,6 +44,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         // List all questions.
         // @GET /api/v2/questions
         $api->get('/', API2\QuestionController::class.'@index');
+
+        // Get a single question.
+        // GET /api/v2/questions/:question
+        $api->get('/{question}', API2\QuestionController::class.'@show');
     });
 
     // @Auth api.

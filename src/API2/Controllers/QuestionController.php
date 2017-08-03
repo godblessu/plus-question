@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Zhiyi\Plus\Concerns\FindMarkdownFileTrait;
 use SlimKit\PlusQuestion\Models\User as UserModel;
 use SlimKit\PlusQuestion\Models\Topic as TopicModel;
+use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
 use SlimKit\PlusQuestion\Models\Question as QuestionModel;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
@@ -66,6 +67,48 @@ class QuestionController extends Controller
 
             return $question;
         }))->setStatusCode(200);
+    }
+
+    public function show(Request $request, ResponseFactoryContract $response, QuestionModel $question)
+    {
+        $userID = $request->user('api')->id ?? 0;
+        $loadMap = [
+            'topics', 'invitations',
+            'answers' => function ($query) {
+                $query->where('invited', '!=', 0);
+                $query->where('adoption', 0);
+                $query->orderBy('id', 'desc');
+            },
+            'answers.user'
+        ];
+        $answerResolveCall = function (AnswerModel $answer) use ($userID, $question) {
+            if ($answer->anonymity && $answer->user_id !== $userID) {
+                $answer->addHidden('user');
+                $answer->user_id = 0;
+            }
+
+            if ($question->automaticity || ($question->lock && $answer->adoption)) {
+                # code...
+            }
+
+            return $answer;
+        };
+
+        if (! $question->anonymity || $userID === $question->user_id) {
+            $loadMap[] = 'user';
+        } elseif ($question->anonymity) {
+            $question->user_id = 0;
+        }
+        $question->load($loadMap);
+        $question->addHidden('answers');
+        $question->invitation_answers = $question->answers->map($answerResolveCall);
+        $question->adoption_answers = $question->answers()
+            ->with('user')
+            ->where('adoption', '!=', 0)
+            ->get()
+            ->map($answerResolveCall);
+        
+        return $response->json($question, 200);
     }
 
     /**
