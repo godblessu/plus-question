@@ -3,6 +3,7 @@
 - [发布问题](#发布问题)
 - [更新问题](#更新问题)
 - [获取问题列表](#获取问题列表)
+- [获取一个问题详情](#获取一个问题详情)
 
 ## 发布问题
 
@@ -160,6 +161,163 @@ Status: 200 OK
 ]
 ```
 
+> 字段注明情查看 「[获取一个问题详情](#获取一个问题详情)」，列表值返回一部分主要数据。
+
+## 获取一个问题详情
+
+```
+GET /questions/:question
+```
+
+#### 响应
+
+```
+Status: 200 OK
+```
+```json
+{
+    "id": 1,
+    "user_id": 1,
+    "subject": "第一个提问?",
+    "body": null,
+    "anonymity": 0,
+    "amount": 0,
+    "automaticity": 1,
+    "look": 1,
+    "excellent": 0,
+    "status": 0,
+    "comments_count": 0,
+    "answers_count": 3,
+    "watchers_count": 0,
+    "likes_count": 0,
+    "view_count": 0,
+    "created_at": "2017-07-28 08:38:54",
+    "updated_at": "2017-08-01 06:03:21",
+    "watched": false,
+    "invitation_answers": [
+        {
+            "id": 2,
+            "question_id": 1,
+            "user_id": 2,
+            "body": null,
+            "anonymity": 0,
+            "adoption": 0,
+            "invited": 1,
+            "comments_count": 0,
+            "rewards_amount": 0,
+            "rewarder_count": 0,
+            "likes_count": 0,
+            "created_at": "2017-08-01 03:44:04",
+            "updated_at": "2017-08-01 03:44:04",
+            "could": false,
+            "user": {
+                "id": 2,
+                "name": "test1",
+                "bio": "0",
+                "sex": 0,
+                "location": "0",
+                "created_at": "2017-06-12 07:38:55",
+                "updated_at": "2017-06-12 07:38:55",
+                "avatar": null,
+                "bg": null,
+                "verified": null,
+                "extra": null
+            }
+        }
+    ],
+    "adoption_answers": [
+        {
+            "id": 3,
+            "question_id": 1,
+            "user_id": 1,
+            "body": "终于回答成功",
+            "anonymity": 1,
+            "adoption": 1,
+            "invited": 0,
+            "comments_count": 0,
+            "rewards_amount": 0,
+            "rewarder_count": 0,
+            "likes_count": 0,
+            "created_at": "2017-08-01 06:03:21",
+            "updated_at": "2017-08-01 06:03:21",
+            "could": true,
+            "user": {
+                "id": 1,
+                "name": "Seven",
+                "bio": "Seven 的个人传记",
+                "sex": 2,
+                "location": "成都 中国",
+                "created_at": "2017-06-02 08:43:54",
+                "updated_at": "2017-07-25 03:59:39",
+                "avatar": "http://plus.io/api/v2/users/1/avatar",
+                "bg": "http://plus.io/storage/user-bg/000/000/000/01.png",
+                "verified": null,
+                "extra": {
+                    "user_id": 1,
+                    "likes_count": 0,
+                    "comments_count": 8,
+                    "followers_count": 0,
+                    "followings_count": 1,
+                    "updated_at": "2017-08-01 06:06:37",
+                    "feeds_count": 0,
+                    "questions_count": 5,
+                    "answers_count": 3
+                }
+            }
+        }
+    ],
+    "topics": [
+        {
+            "id": 1,
+            "name": "PHP",
+            "description": "我是PHP",
+            "questions_count": 5,
+            "experts_count": 1,
+            "follows_count": 0,
+            "avatar": null
+        }
+    ],
+    "invitations": [
+        {
+            "id": 2,
+            "name": "test1",
+            "bio": "0",
+            "sex": 0,
+            "location": "0",
+            "created_at": "2017-06-12 07:38:55",
+            "updated_at": "2017-06-12 07:38:55",
+            "avatar": null,
+            "bg": null,
+            "verified": null,
+            "extra": null
+        }
+    ],
+    "user": {
+        "id": 1,
+        "name": "Seven",
+        "bio": "Seven 的个人传记",
+        "sex": 2,
+        "location": "成都 中国",
+        "created_at": "2017-06-02 08:43:54",
+        "updated_at": "2017-07-25 03:59:39",
+        "avatar": "http://plus.io/api/v2/users/1/avatar",
+        "bg": "http://plus.io/storage/user-bg/000/000/000/01.png",
+        "verified": null,
+        "extra": {
+            "user_id": 1,
+            "likes_count": 0,
+            "comments_count": 8,
+            "followers_count": 0,
+            "followings_count": 1,
+            "updated_at": "2017-08-01 06:06:37",
+            "feeds_count": 0,
+            "questions_count": 5,
+            "answers_count": 3
+        }
+    }
+}
+```
+
 | 字段 | 描述 |
 |:----:|----|
 | id | 问题唯一 ID 。 |
@@ -179,6 +337,11 @@ Status: 200 OK
 | view_count | 问题查看数量统计。 |
 | created_at | 问题创建时间。 |
 | updated_at | 问题修改时间。 |
+| watched | 用户是否关注这个问题。 |
+| invitation_answers | 问题邀请用户回答的答案列表，具体数据结构参考「回答」文档。 |
+| adoption_answers | 问题采纳的答案列表，具体数据结构参考「回答」文档。 |
+| topics | 问题话题列表，参考「话题」文档。 |
+| invitations | 问题邀请回答的用户列表，参考「用户」文档。 |
 | user | 用户资料，如果是 `anonymity` 是 `1` 则该字段不存在。 |
 
 > 如果匿名提问是当前请求的认证用户所发布，则返回用户信息。
