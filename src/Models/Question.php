@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['pivot'];
+
+    /**
      * Has topics for the question.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
