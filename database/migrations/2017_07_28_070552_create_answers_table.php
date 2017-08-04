@@ -25,6 +25,7 @@ class CreateAnswersTable extends Migration
             $table->integer('rewards_amount')->unsigned()->nullable()->default(0)->comment('打赏总额');
             $table->integer('rewarder_count')->unsigned()->nullable()->default(0)->comment('打赏的人统计');
             $table->integer('likes_count')->nullable()->default(0)->comment('喜欢数量统计');
+            $table->integer('views_count')->unsigned()->nullable()->default(0)->comment('答案查看数量统计');
             $table->timestamps();
         });
     }
