@@ -18,8 +18,9 @@ return [
         'required' => '请输入打赏:attribute',
         'min' => '你输入的:attribute非法',
         'max' => '余额不足',
-        'not-user' => '打赏对象不存在，无法进行搭讪。',
+        'not-user' => '打赏对象不存在，无法进行搭讪',
         'send-reward' => '打赏问答答案。',
         'get-reward' => '问答回答被打赏',
+        'own' => '调皮，自己不可以给自己打赏',
     ],
 ];

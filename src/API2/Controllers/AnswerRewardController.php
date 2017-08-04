@@ -2,6 +2,8 @@
 
 namespace SlimKit\PlusQuestion\API2\Controllers;
 
+use Illuminate\Http\Request;
+use Zhiyi\Plus\Models\Reward as RewardModel;
 use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
 use SlimKit\PlusQuestion\API2\Requests\AnswerReward as AnswerRewardRequest;
@@ -26,6 +28,8 @@ class AnswerRewardController extends Controller
 
         if (! $respondent) {
             return $response->json(['message' => [trans('plus-question::answers.reward.not-user')]], 422);
+        } elseif ($respondent->id === $user->id) {
+            return $response->json(['message' => [trans('plus-question::answers.reward.own')]], 422);
         }
 
         $userCharge = new WalletChargeModel();
@@ -49,6 +53,13 @@ class AnswerRewardController extends Controller
         $respondentCharge->status = 1;
 
         return $response->json($answer->getConnection()->transaction(function () use ($answer, $user, $respondent, $userCharge, $respondentCharge) {
+
+            // Save log.
+            $reward = new RewardModel();
+            $reward->user_id = $user->id;
+            $reward->target_user = $respondent->id;
+            $reward->amount = $userCharge->amount;
+            $answer->rewarders()->save($reward);
 
             // increment reward for the answer.
             $answer->rewards_amount += $userCharge->amount;
