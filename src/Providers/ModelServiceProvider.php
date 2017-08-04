@@ -5,10 +5,12 @@ namespace SlimKit\PlusQuestion\Providers;
 use Zhiyi\Plus\Models\User;
 use SlimKit\PlusQuestion\Models\Topic;
 use Illuminate\Support\ServiceProvider;
+use SlimKit\PlusQuestion\Models\Answer;
 use SlimKit\PlusQuestion\Models\Question;
 use SlimKit\PlusQuestion\Models\TopicUser;
 use SlimKit\PlusQuestion\Models\TopicExpert;
 use SlimKit\PlusQuestion\Models\QuestionWatcher;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ModelServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,10 @@ class ModelServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Register morph map for polymorphic relations.
+        $this->registerMorphMap();
+
+        // Register user model macros tu the application.
         $this->registerUserMacros();
     }
 
@@ -56,5 +62,32 @@ class ModelServiceProvider extends ServiceProvider
                 ->using(QuestionWatcher::class)
                 ->withTimestamps();
         });
+    }
+
+    /**
+     * Register morph map for polymorphic relations.
+     *
+     * @return void
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    protected function registerMorphMap()
+    {
+        $this->morphMap([
+            'questions' => Question::class,
+            'question-answers' => Answer::class,
+        ]);
+    }
+
+    /**
+     * Set or get the morph map for polymorphic relations.
+     *
+     * @param array|null $map
+     * @param bool $merge
+     * @return array
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    protected function morphMap(array $map = null, bool $merge = true): array
+    {
+        return Relation::morphMap($map, $merge);
     }
 }
