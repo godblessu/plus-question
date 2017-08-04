@@ -52,6 +52,43 @@ class AnswerController extends Controller
     }
 
     /**
+     * Get a signle answer.
+     *
+     * @param Request $request
+     * @param ResponseFactoryContract $response
+     * @param AnswerModel $answer
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function show(Request $request, ResponseFactoryContract $response, AnswerModel $answer)
+    {
+        $userID = $request->user('api')->id ?? 0;
+        $answer->load([
+            'likes' => function ($query) {
+                $query->limit(5);
+                $query->orderBy('id', 'desc');
+            },
+            'likes.user',
+            'rewarders' => function ($query) {
+                $query->limit(10);
+                $query->orderBy('id', 'desc');
+            },
+            'rewarders.user',
+        ]);
+
+        $answer->liked = false;
+        $answer->collected = false;
+        $answer->rewarded = false;
+        if ($userID) {
+            $answer->liked = (bool) $answer->likes()->where('user_id', $userID)->first();
+            $answer->collected = (bool) $answer->collectors()->where('user_id', $userID)->first();
+            $answer->rewarded = (bool) $answer->rewarders()->where('user_id', $userID)->first();
+        }
+
+        return $response->json($answer, 200);
+    }
+
+    /**
      * Append answer to question.
      *
      * @param \SlimKit\PlusQuestion\API2\Requests\QuestionAnswer $request

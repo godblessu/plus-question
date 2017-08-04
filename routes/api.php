@@ -59,6 +59,15 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         });
     });
 
+    // Answers.
+    // @Route /api/v2/question-answers
+    $api->group(['prefix' => 'question-answers'], function (RouteRegisterContract $api) {
+
+        // Get a signle answer.
+        // @GET /api/v2/question-answers/:answer
+        $api->get('/{answer}', API2\AnswerController::class.'@show');
+    });
+
     // @Auth api.
     // @Route /api/v2
     $api->group(['middleware' => 'auth:api'], function (RouteRegisterContract $api) {
