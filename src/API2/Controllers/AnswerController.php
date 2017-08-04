@@ -76,7 +76,7 @@ class AnswerController extends Controller
             'rewarders.user',
             'question',
             'question.user',
-            'user'
+            'user',
         ]);
 
         $answer->liked = false;
