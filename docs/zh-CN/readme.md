@@ -4,3 +4,4 @@
     - [话题](api2/topic.md)
     - [问题](api2/question.md)
     - [回答](api2/answer.md)
+        - [打赏](api2/answer-reward.md)
