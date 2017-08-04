@@ -36,7 +36,7 @@ class AnswerRewardController extends Controller
             ->limit($limit)
             ->offset($offset)
             ->get();
-        
+
         return $response->json($rewarders, 200);
     }
 
