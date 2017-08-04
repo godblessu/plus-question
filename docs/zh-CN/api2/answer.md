@@ -1,6 +1,7 @@
 # 问答 - 回答
 
 - [获取回答列表](#获取回答列表)
+- [获取一个回答详情](#获取一个回答详情)
 - [回答一个提问](#回答一个提问)
 
 ## 获取回答列表
@@ -78,9 +79,132 @@ Status: 200 OK
 | rewards_amount | 回答打赏总额统计。 |
 | rewarder_count | 打赏的人总数统计。 |
 | likes_count | 回答喜欢总数统计。 |
+| views_count | 回答浏览量统计。 |
 | created_at | 回答创建时间。 |
 | updated_at | 回答更新时间。 |
 | user | 回答的用户资料，参考「用户」文档，如果 `anonymity` 为 `1` 则不存在这个字段或者为 `null` 。 |
+
+## 获取一个回答详情
+
+```
+GET /question-answers/:answer
+```
+
+#### 响应
+
+```
+Status: 200
+```
+```json
+{
+    "id": 1,
+    "question_id": 1,
+    "user_id": 1,
+    "body": "笑嘻嘻，我是回答。",
+    "anonymity": 0,
+    "adoption": 0,
+    "invited": 0,
+    "comments_count": 0,
+    "rewards_amount": 0,
+    "rewarder_count": 0,
+    "likes_count": 0,
+    "created_at": "2017-08-01 03:40:54",
+    "updated_at": "2017-08-01 03:40:54",
+    "liked": false,
+    "collected": false,
+    "rewarded": false,
+    "likes": [],
+    "rewarders": [],
+    "question": {
+        "id": 1,
+        "user_id": 1,
+        "subject": "第一个提问?",
+        "body": null,
+        "anonymity": 0,
+        "amount": 0,
+        "automaticity": 1,
+        "look": 1,
+        "excellent": 0,
+        "status": 0,
+        "comments_count": 0,
+        "answers_count": 3,
+        "watchers_count": 0,
+        "likes_count": 0,
+        "view_count": 0,
+        "created_at": "2017-07-28 08:38:54",
+        "updated_at": "2017-08-01 06:03:21",
+        "user": {
+            "id": 1,
+            "name": "Seven",
+            "bio": "Seven 的个人传记",
+            "sex": 2,
+            "location": "成都 中国",
+            "created_at": "2017-06-02 08:43:54",
+            "updated_at": "2017-07-25 03:59:39",
+            "avatar": "http://plus.io/api/v2/users/1/avatar",
+            "bg": "http://plus.io/storage/user-bg/000/000/000/01.png",
+            "verified": null,
+            "extra": {
+                "user_id": 1,
+                "likes_count": 0,
+                "comments_count": 8,
+                "followers_count": 0,
+                "followings_count": 1,
+                "updated_at": "2017-08-01 06:06:37",
+                "feeds_count": 0,
+                "questions_count": 5,
+                "answers_count": 3
+            }
+        }
+    },
+    "user": {
+        "id": 1,
+        "name": "Seven",
+        "bio": "Seven 的个人传记",
+        "sex": 2,
+        "location": "成都 中国",
+        "created_at": "2017-06-02 08:43:54",
+        "updated_at": "2017-07-25 03:59:39",
+        "avatar": "http://plus.io/api/v2/users/1/avatar",
+        "bg": "http://plus.io/storage/user-bg/000/000/000/01.png",
+        "verified": null,
+        "extra": {
+            "user_id": 1,
+            "likes_count": 0,
+            "comments_count": 8,
+            "followers_count": 0,
+            "followings_count": 1,
+            "updated_at": "2017-08-01 06:06:37",
+            "feeds_count": 0,
+            "questions_count": 5,
+            "answers_count": 3
+        }
+    }
+}
+```
+| 字段 | 描述 |
+|:----:|----|
+| id | 回答唯一标识 ID 。 |
+| question_id | 回答所属问题标识 ID 。 |
+| user_id | 发布回答用户标识ID，如果 `anonymity` 为 `1` 则只为 `0` 。 |
+| body | 回答的内容，markdown 。 |
+| anonymity | 是否是匿名回答 。 |
+| adoption | 是否是采纳答案。 |
+| invited | 是否该回答是被邀请的人的回答。 |
+| comments_count | 评论总数统计。 |
+| rewards_amount | 回答打赏总额统计。 |
+| rewarder_count | 打赏的人总数统计。 |
+| likes_count | 回答喜欢总数统计。 |
+| views_count | 回答浏览量统计。 |
+| created_at | 回答创建时间。 |
+| updated_at | 回答更新时间。 |
+| user | 回答的用户资料，参考「用户」文档，如果 `anonymity` 为 `1` 则不存在这个字段或者为 `null` 。 |
+| liked | 是否喜欢这个回答。 |
+| collected | 是否已收藏这个回答。 |
+| rewarded | 是否已打赏这个问题。 |
+| likes | 喜欢列表，参考「回答喜欢」文档。 |
+| rewarders | 打赏用户列表，参考「回答打赏」文档。 |
+| question | 问题基础数据，参考「问题」文档。 |
 
 ## 回答一个提问
 
