@@ -67,8 +67,9 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         // @GET /api/v2/question-answers/:answer
         $api->get('/{answer}', API2\AnswerController::class.'@show');
 
-        // Answer rewarders.
-        // @Route /api/v2/question-answers/:answer/rewarders
+        // Get all answer rewarders.
+        // @GET /api/v2/question-answers/:answer/rewarders
+        $api->get('/{answer}/rewarders', API2\AnswerRewardController::class.'@index');
     });
 
     // @Auth api.

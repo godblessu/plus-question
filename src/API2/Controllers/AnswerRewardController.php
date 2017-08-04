@@ -12,6 +12,35 @@ use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
 class AnswerRewardController extends Controller
 {
     /**
+     * Get all answer rewarders.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Answer $answer
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function index(Request $request, ResponseFactoryContract $response, AnswerModel $answer)
+    {
+        $offset = max(0, $request->query('offset', 0));
+        $limit = max(1, min(30, $request->query('limit', 20)));
+        $orderMap = [
+            'time' => 'id',
+            'amount' => 'amount',
+        ];
+        $orderType = in_array($orderType = $request->query('order_type', 'time'), array_keys($orderMap)) ? $orderType : 'time';
+
+        $rewarders = $answer->rewarders()
+            ->with('user')
+            ->orderBy($orderMap[$orderType], 'desc')
+            ->limit($limit)
+            ->offset($offset)
+            ->get();
+        
+        return $response->json($rewarders, 200);
+    }
+
+    /**
      * Give a reward.
      *
      * @param \SlimKit\PlusQuestion\API2\Requests\AnswerReward $request
