@@ -98,6 +98,8 @@ class AnswerController extends Controller
             $answer->question->user_id = 0;
         }
 
+        $answer->increment('views_count', 1);
+
         return $response->json($answer, 200);
     }
 
