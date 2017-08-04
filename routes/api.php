@@ -66,6 +66,9 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         // Get a signle answer.
         // @GET /api/v2/question-answers/:answer
         $api->get('/{answer}', API2\AnswerController::class.'@show');
+
+        // Answer rewarders.
+        // @Route /api/v2/question-answers/:answer/rewarders
     });
 
     // @Auth api.
@@ -114,6 +117,15 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                 // @Post /api/v2/questions/:question/answers
                 $api->post('/', API2\AnswerController::class.'@store');
             });
+        });
+
+        // Question answers.
+        // @Route /api/v2/question-answers
+        $api->group(['prefix' => 'question-answers'], function (RouteRegisterContract $api) {
+
+            // Give a reward.
+            // @POST /api/v2/question-answers/:answer/rewarders
+            $api->post('/{answer}/rewarders', API2\AnswerRewardController::class.'@store');
         });
     });
 });
