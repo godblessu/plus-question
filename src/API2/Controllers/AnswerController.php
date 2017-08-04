@@ -74,6 +74,9 @@ class AnswerController extends Controller
                 $query->orderBy('id', 'desc');
             },
             'rewarders.user',
+            'question',
+            'question.user',
+            'user'
         ]);
 
         $answer->liked = false;
@@ -83,6 +86,16 @@ class AnswerController extends Controller
             $answer->liked = (bool) $answer->likes()->where('user_id', $userID)->first();
             $answer->collected = (bool) $answer->collectors()->where('user_id', $userID)->first();
             $answer->rewarded = (bool) $answer->rewarders()->where('user_id', $userID)->first();
+        }
+
+        if ($answer->anonymity && $answer->user_id !== $userID) {
+            $answer->addHidden('user');
+            $answer->user_id = 0;
+        }
+
+        if ($answer->question && ($answer->question->anonymity && $answer->question->user_id !== $userID)) {
+            $answer->question->addHidden('user');
+            $answer->question->user_id = 0;
         }
 
         return $response->json($answer, 200);
