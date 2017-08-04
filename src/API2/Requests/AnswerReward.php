@@ -26,8 +26,9 @@ class AnswerReward extends FormRequest
     public function rules(): array
     {
         $balance = $this->user()->wallet->balance ?? 0;
+
         return [
-            'amount' => ['required', 'integer', 'min:1', 'max:'.$balance]
+            'amount' => ['required', 'integer', 'min:1', 'max:'.$balance],
         ];
     }
 

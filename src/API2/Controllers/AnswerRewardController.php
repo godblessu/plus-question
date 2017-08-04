@@ -2,7 +2,6 @@
 
 namespace SlimKit\PlusQuestion\API2\Controllers;
 
-use Illuminate\Http\Request;
 use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
 use SlimKit\PlusQuestion\API2\Requests\AnswerReward as AnswerRewardRequest;
