@@ -28,7 +28,7 @@ class CreateQuestionsTable extends Migration
             $table->integer('answers_count')->nullable()->default(0)->comment('答案数量统计');
             $table->integer('watchers_count')->nullable()->default(0)->comment('关注者统计');
             $table->integer('likes_count')->nullable()->default(0)->comment('喜欢数量统计');
-            $table->integer('view_count')->unsigned()->nullable()->default(0)->comment('查看统计');
+            $table->integer('views_count')->unsigned()->nullable()->default(0)->comment('查看统计');
             $table->timestamps();
         });
     }

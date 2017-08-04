@@ -112,7 +112,7 @@ Status: 200 OK
         "answers_count": 0,
         "watchers_count": 0,
         "likes_count": 0,
-        "view_count": 0,
+        "views_count": 0,
         "created_at": "2017-08-01 06:06:37",
         "updated_at": "2017-08-01 06:06:37"
     },
@@ -131,7 +131,7 @@ Status: 200 OK
         "answers_count": 3,
         "watchers_count": 0,
         "likes_count": 0,
-        "view_count": 0,
+        "views_count": 0,
         "created_at": "2017-07-28 08:38:54",
         "updated_at": "2017-08-01 06:03:21",
         "user": {
@@ -190,7 +190,7 @@ Status: 200 OK
     "answers_count": 3,
     "watchers_count": 0,
     "likes_count": 0,
-    "view_count": 0,
+    "views_count": 0,
     "created_at": "2017-07-28 08:38:54",
     "updated_at": "2017-08-01 06:03:21",
     "watched": false,
@@ -334,7 +334,7 @@ Status: 200 OK
 | answers_count | 问题答案数量统计。 |
 | watchers_count | 问题关注的人总数统计。 |
 | likes_count | 喜欢问题的人总数统计。 |
-| view_count | 问题查看数量统计。 |
+| views_count | 问题查看数量统计。 |
 | created_at | 问题创建时间。 |
 | updated_at | 问题修改时间。 |
 | watched | 用户是否关注这个问题。 |
