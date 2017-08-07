@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    use Relations\AnswerHasLike;
+
     /**
      * Has the question for answer.
      *
@@ -43,17 +45,6 @@ class Answer extends Model
         return $this->belongsToMany(User::class, 'answer_onlooker', 'answer_id', 'user_id')
             ->using(AnswerOnlooker::class)
             ->withTimestamps();
-    }
-
-    /**
-     * Has be likes for answer.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     * @author Seven Du <shiweidu@outlook.com>
-     */
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likeable');
     }
 
     /**
