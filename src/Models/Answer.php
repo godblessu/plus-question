@@ -2,7 +2,6 @@
 
 namespace SlimKit\PlusQuestion\Models;
 
-use Zhiyi\Plus\Models\Like;
 use Zhiyi\Plus\Models\User;
 use Zhiyi\Plus\Models\Reward;
 use Zhiyi\Plus\Models\Collection;

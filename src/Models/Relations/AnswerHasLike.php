@@ -62,7 +62,7 @@ trait AnswerHasLike
         $this->forgetLike($user);
 
         return $this->getConnection()->transaction(function () use ($user) {
-        	$this->increment('likes_count', 1);
+            $this->increment('likes_count', 1);
 
             return $this->likes()->firstOrCreate([
                 'user_id' => $user,
@@ -87,8 +87,7 @@ trait AnswerHasLike
         $this->forgetLike($user);
 
         return $this->getConnection()->transaction(function () use ($user) {
-
-        	$this->decrement('likes_count', 1);
+            $this->decrement('likes_count', 1);
 
             return $this->likes()->where(['user_id' => $user, 'target_user' => $this->user_id])->delete();
         });
