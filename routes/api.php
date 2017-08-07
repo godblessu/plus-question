@@ -70,6 +70,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         // Get all answer rewarders.
         // @GET /api/v2/question-answers/:answer/rewarders
         $api->get('/{answer}/rewarders', API2\AnswerRewardController::class.'@index');
+
+        // Get a list of users who like an answer.
+        // @GET /api/v2/question-answers/:answer/likes
+        $api->get('/{answer}/likes', API2\AnswerLikeController::class.'@index');
     });
 
     // @Auth api.
@@ -144,6 +148,14 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // Give a reward.
             // @POST /api/v2/question-answers/:answer/rewarders
             $api->post('/{answer}/rewarders', API2\AnswerRewardController::class.'@store');
+
+            // Like an answer.
+            // @POST /api/v2/question-answers/:answer/likes
+            $api->post('/{answer}/likes', API2\AnswerLikeController::class.'@store');
+
+            // Cancel like an answer.
+            // @DELETE /api/v2/question-answers/:answer/likes
+            $api->delete('/{answer}/likes', API2\AnswerLikeController::class.'@destroy');
         });
     });
 });
