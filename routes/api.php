@@ -104,6 +104,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                 // Watch a question.
                 // @PUT /api/v2/user/question-watches/:question
                 $api->put('/{question}', API2\UserQuestionController::class.'@store');
+
+                // Unwatch a question.
+                // @DELETE /api/v2/user/question-watches/:question
+                $api->delete('{question}', API2\UserQuestionController::class.'@destroy');
             });
         });
 

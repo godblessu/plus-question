@@ -29,4 +29,26 @@ class UserQuestionController extends Controller
 
         return $response->make('', 204);
     }
+
+    /**
+     * Unwatch a question.
+     *
+     * @param Request $request
+     * @param ResponseFactoryContract $response
+     * @param QuestionModel $question
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function destroy(Request $request, ResponseFactoryContract $response, QuestionModel $question)
+    {
+        $user = $request->user();
+
+        if (! $user->watchingQuestions()->newPivotStatementForId($question->id)->first()) {
+            return $response->json(['message' => [trans('plus-question::users.questions.not-watching')]], 422);
+        }
+
+        $user->watchingQuestions()->detach($question);
+
+        return $response->make('', 204);
+    }
 }
