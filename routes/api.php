@@ -57,6 +57,9 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // @GET /api/v2/questions/:question/answers
             $api->get('/', API2\AnswerController::class.'@index');
         });
+
+        // question comments
+        $api->get('/{question}/comments', API2\CommentController::class.'@questionComments');
     });
 
     // Answers.
@@ -74,13 +77,11 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         // Get a list of users who like an answer.
         // @GET /api/v2/question-answers/:answer/likes
         $api->get('/{answer}/likes', API2\AnswerLikeController::class.'@index');
+
+        // answer comments
+        $api->get('/{answer}/comments', API2\CommentController::class.'@answerComments');
     });
 
-    // question comments
-    $api->get('/questions/{question}/comments', API2\CommentController::class.'@questionComments');
-
-    // answer comments
-    $api->get('/answers/{answer}/comments', API2\CommentController::class.'@answerComments');
 
     // @Auth api.
     // @Route /api/v2
@@ -145,7 +146,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                 // @Post /api/v2/questions/:question/answers
                 $api->post('/', API2\AnswerController::class.'@store');
             });
-        });
+
+            // 评论问题
+            $api->post('/{question}/comments', API2\CommentController::class.'@storeQuestionComment');
+            });
 
         // Question answers.
         // @Route /api/v2/question-answers
@@ -162,12 +166,11 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // Cancel like an answer.
             // @DELETE /api/v2/question-answers/:answer/likes
             $api->delete('/{answer}/likes', API2\AnswerLikeController::class.'@destroy');
+
+            // 评论回答
+            $api->post('/{answer}/comments', API2\CommentController::class.'@storeAnswerComment');
         });
 
-        // 评论问题
-        $api->post('/questions/{question}/comments', API2\CommentController::class.'@storeQuestionComment');
-
-        // 评论回答
-        $api->post('/questions/{question}/answers/{answer}', API2\CommentController::class.'@storeAnswerComment');
+        
     });
 });

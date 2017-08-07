@@ -52,7 +52,7 @@ Status: 200 OK
 ## 获取回答评论列表
 
 ```
-GET /questions/answers/:answer/comments
+GET /questions/question-answers/:answer/comments
 ```
 #### 参数
 
@@ -131,7 +131,7 @@ Status: 201 Created
 ## 评论答案
 
 ```
-POST /questions/:question/comments
+POST /question-answers/:answer/comments
 ```
 
 #### 输入
