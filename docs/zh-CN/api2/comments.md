@@ -52,7 +52,7 @@ Status: 200 OK
 ## 获取回答评论列表
 
 ```
-GET /questions/question-answers/:answer/comments
+GET /question-answers/:answer/comments
 ```
 #### 参数
 
