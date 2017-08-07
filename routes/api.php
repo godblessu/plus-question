@@ -101,6 +101,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // @Route /api/v2/user/question-watches
             $api->group(['prefix' => 'question-watches'], function (RouteRegisterContract $api) {
 
+                // List watched questions for the authenticated user.
+                // @GET /api/v2/user/question-watches
+                $api->get('/', API2\UserQuestionController::class.'@index');
+
                 // Watch a question.
                 // @PUT /api/v2/user/question-watches/:question
                 $api->put('/{question}', API2\UserQuestionController::class.'@store');
