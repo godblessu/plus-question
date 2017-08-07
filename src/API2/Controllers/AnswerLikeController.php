@@ -65,7 +65,7 @@ class AnswerLikeController extends Controller
         $after = $request->query('after', 0);
         $list = $answer->likes()->when($after, function ($query) use ($after) {
             return $query->where('id', '<', $after);
-        })->take($limit)->get();
+        })->take($limit)->orderBy('id', 'desc')->get();
 
         return $response->json($list, 200);
     }
