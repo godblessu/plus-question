@@ -96,6 +96,15 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                 // @DELETE /api/v2/user/question-topics/:topic
                 $api->delete('/{topic}', API2\TopicUserController::class.'@destroy');
             });
+
+            // Watched questions.
+            // @Route /api/v2/user/question-watches
+            $api->group(['prefix' => 'question-watches'], function (RouteRegisterContract $api) {
+
+                // Watch a question.
+                // @PUT /api/v2/user/question-watches/:question
+                $api->put('/{question}', API2\UserQuestionController::class.'@store');
+            });
         });
 
         // Question.
