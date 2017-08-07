@@ -3,6 +3,7 @@
 namespace SlimKit\PlusQuestion\Models;
 
 use Zhiyi\Plus\Models\User;
+use Zhiyi\Plus\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
@@ -70,5 +71,10 @@ class Question extends Model
         return $this->belongsToMany(User::class, 'question_watcher')
             ->using(QuestionWatcher::class)
             ->withTimestamps();
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

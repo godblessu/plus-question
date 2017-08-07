@@ -3,6 +3,7 @@
 namespace SlimKit\PlusQuestion\Models;
 
 use Zhiyi\Plus\Models\User;
+use Zhiyi\Plus\Models\Comment;
 use Zhiyi\Plus\Models\Reward;
 use Zhiyi\Plus\Models\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -66,5 +67,11 @@ class Answer extends Model
     public function rewarders()
     {
         return $this->morphMany(Reward::class, 'rewardable');
+    }
+
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

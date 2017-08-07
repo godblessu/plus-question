@@ -76,6 +76,12 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         $api->get('/{answer}/likes', API2\AnswerLikeController::class.'@index');
     });
 
+    // question comments
+    $api->get('/questions/{question}/comments', API2\CommentController::class.'@questionComments');
+
+    // answer comments
+    $api->get('/answers/{answer}/comments', API2\CommentController::class.'@answerComments');
+
     // @Auth api.
     // @Route /api/v2
     $api->group(['middleware' => 'auth:api'], function (RouteRegisterContract $api) {
@@ -157,5 +163,11 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // @DELETE /api/v2/question-answers/:answer/likes
             $api->delete('/{answer}/likes', API2\AnswerLikeController::class.'@destroy');
         });
+
+        // 评论问题
+        $api->post('/questions/{question}/comments', API2\CommentController::class.'@storeQuestionComment');
+
+        // 评论回答
+        $api->post('/questions/{question}/answers/{answer}', API2\CommentController::class.'@storeAnswerComment');
     });
 });
