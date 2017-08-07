@@ -26,7 +26,7 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'body' => 'required|string|min:1|max:255'
+            'body' => 'required|string|min:1|max:255',
         ];
     }
 
@@ -40,11 +40,11 @@ class CommentRequest extends FormRequest
     {
         return [
             'body.requered' => '评论内容不能为空',
-            'body.max' => '不能超过255个字'
+            'body.max' => '不能超过255个字',
         ];
     }
 
-    /**
+    /*
      * Get custom attributes for validator errors.
      *
      * @return array
