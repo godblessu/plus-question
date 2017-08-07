@@ -82,7 +82,6 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         $api->get('/{answer}/comments', API2\CommentController::class.'@answerComments');
     });
 
-
     // @Auth api.
     // @Route /api/v2
     $api->group(['middleware' => 'auth:api'], function (RouteRegisterContract $api) {
@@ -149,7 +148,7 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
 
             // 评论问题
             $api->post('/{question}/comments', API2\CommentController::class.'@storeQuestionComment');
-            });
+        });
 
         // Question answers.
         // @Route /api/v2/question-answers
@@ -170,7 +169,5 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // 评论回答
             $api->post('/{answer}/comments', API2\CommentController::class.'@storeAnswerComment');
         });
-
-        
     });
 });
