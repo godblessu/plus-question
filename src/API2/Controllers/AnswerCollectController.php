@@ -3,6 +3,7 @@
 namespace SlimKit\PlusQuestion\API2\Controllers;
 
 use Illuminate\Http\Request;
+use Zhiyi\Plus\Models\Collection;
 use SlimKit\PlusQuestion\Models\Answer;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
@@ -48,5 +49,40 @@ class AnswerCollectController extends Controller
         $answer->unCollect($user);
 
         return $response->json(['message' => [trans('plus-question::messages.success')]], 204);
+    }
+
+    /**
+     * A list of answer for collections.
+     *
+     * @author bs<414606094@qq.com>
+     * @param  \Illuminate\Http\Request $request
+     * @param  \SlimKit\PlusQuestion\Models\Answer $answer
+     * @param  \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @return mixed
+     */
+    public function index(Request $request, ResponseFactory $response, Collection $collectionModel)
+    {
+        $limit = $request->query('limit', 20);
+        $after = $request->query('after', false);
+        $user = $request->user();
+
+        $collections = $collectionModel->with('collectible')
+            ->where('collectible_type', 'question-answers')
+            ->where('user_id', $user->id)
+            ->when($after, function ($query) use ($after) {
+                return $query->where('id', '<', $after);
+            })
+            ->limit($limit)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return $response->json($collections->map(function ($collection) use ($user) {
+            // 如果为匿名回答且回答者不是当前用户
+            if ($collection->collectible->anonymity && $collection->collectible->user_id !== $user->id) {
+                $collection->collectible->user_id = 0;
+            }
+
+            return $collection;
+        }))->setStatusCode(200);
     }
 }

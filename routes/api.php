@@ -123,6 +123,28 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                 // @DELETE /api/v2/user/question-watches/:question
                 $api->delete('{question}', API2\UserQuestionController::class.'@destroy');
             });
+
+            // Q & A.
+            // @Route /api/v2/user/question-answer
+            $api->group(['prefix' => 'question-answer'], function (RouteRegisterContract $api) {
+
+                // Q & A collect.
+                // @Route /api/v2/user/question-answer/collections
+                $api->group(['prefix' => 'collections'], function (RouteRegisterContract $api) {
+
+                    // Get the list of answers to the user's collection
+                    // @GET /api/v2/user/question-answer/collections
+                    $api->get('/', API2\AnswerCollectController::class.'@index');
+
+                    // Collect an answer.
+                    // @POST /api/v2/user/question-answer/collections/:answer
+                    $api->post('/{answer}', API2\AnswerCollectController::class.'@store');
+
+                    // Cancel collect an answer.
+                    // @DELETE /api/v2/user/question-answer/collections/:answer
+                    $api->delete('/{answer}', API2\AnswerCollectController::class.'@destroy');
+                });
+            });
         });
 
         // Question.
@@ -169,14 +191,6 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // Cancel like an answer.
             // @DELETE /api/v2/question-answers/:answer/likes
             $api->delete('/{answer}/likes', API2\AnswerLikeController::class.'@destroy');
-
-            // Collect an answer.
-            // @POST /api/v2/question-answers/:answer/collections
-            $api->post('/{answer}/collections', API2\AnswerCollectController::class.'@store');
-
-            // Cancel collect an answer.
-            // @DELETE /api/v2/question-answers/:answer/collections
-            $api->delete('/{answer}/collections', API2\AnswerCollectController::class.'@destroy');
 
             // 评论回答
             $api->post('/{answer}/comments', API2\CommentController::class.'@storeAnswerComment');
