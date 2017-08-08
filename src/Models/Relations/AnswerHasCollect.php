@@ -62,7 +62,6 @@ trait AnswerHasCollect
         $this->forgetCollect($user);
 
         return $this->getConnection()->transaction(function () use ($user) {
-
             return $this->collectors()->firstOrCreate([
                 'user_id' => $user,
             ]);
@@ -85,7 +84,6 @@ trait AnswerHasCollect
         $this->forgetCollect($user);
 
         return $this->getConnection()->transaction(function () use ($user) {
-
             return $this->collectors()->where('user_id', $user)->delete();
         });
     }
