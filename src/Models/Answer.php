@@ -5,12 +5,12 @@ namespace SlimKit\PlusQuestion\Models;
 use Zhiyi\Plus\Models\User;
 use Zhiyi\Plus\Models\Reward;
 use Zhiyi\Plus\Models\Comment;
-use Zhiyi\Plus\Models\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
-    use Relations\AnswerHasLike;
+    use Relations\AnswerHasLike,
+        Relations\AnswerHasCollect;
 
     /**
      * Has the question for answer.
@@ -45,17 +45,6 @@ class Answer extends Model
         return $this->belongsToMany(User::class, 'answer_onlooker', 'answer_id', 'user_id')
             ->using(AnswerOnlooker::class)
             ->withTimestamps();
-    }
-
-    /**
-     * Has collectors for answer.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     * @author Seven Du <shiweidu@outlook.com>
-     */
-    public function collectors()
-    {
-        return $this->morphMany(Collection::class, 'collectible');
     }
 
     /**
