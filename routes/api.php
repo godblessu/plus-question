@@ -170,6 +170,14 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // @DELETE /api/v2/question-answers/:answer/likes
             $api->delete('/{answer}/likes', API2\AnswerLikeController::class.'@destroy');
 
+            // Collect an answer.
+            // @POST /api/v2/question-answers/:answer/collections
+            $api->post('/{answer}/collections', API2\AnswerCollectController::class.'@store');
+
+            // Cancel collect an answer.
+            // @DELETE /api/v2/question-answers/:answer/collections
+            $api->delete('/{answer}/collections', API2\AnswerCollectController::class.'@destroy');
+
             // 评论回答
             $api->post('/{answer}/comments', API2\CommentController::class.'@storeAnswerComment');
         });

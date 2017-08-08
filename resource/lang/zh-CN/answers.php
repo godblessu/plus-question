@@ -27,4 +27,8 @@ return [
         'liked' => '已点赞该回答',
         'not-liked' => '未点赞该回答',
     ],
+    'collect' => [
+        'collected' => '已收藏该回答',
+        'not-collected' => '未收藏该回答',
+    ],
 ];
