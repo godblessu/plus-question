@@ -131,11 +131,12 @@ class AnswerController extends Controller
         $answer->invited = in_array($user->id, $question->invitations->toArray());
 
         // 查询已邀请回答的答案。
-        $invitedAnswer = $question->answers()
+        $unautomaticity = $question->answers()
             ->where('invited', 1)
+            ->orWhere('adoption', 1)
             ->first();
 
-        $question->getConnection()->transaction(function () use ($question, $answer, $images, $user, $invitedAnswer) {
+        $question->getConnection()->transaction(function () use ($question, $answer, $images, $user, $unautomaticity) {
 
             // Save Answer.
             $question->answers()->save($answer);
@@ -152,7 +153,7 @@ class AnswerController extends Controller
             });
 
             // Automaticity ?
-            if ($question->anonymity && $answer->invited && ! $invitedAnswer) {
+            if ($question->automaticity && $answer->invited && ! $unautomaticity) {
                 $user->wallet()->increment('balance', $question->amount);
 
                 $charge = new WalletChargeModel();
@@ -170,7 +171,7 @@ class AnswerController extends Controller
         });
 
         $message = trans(
-            ($answer->invited && ! $invitedAnswer)
+            $answer->invited
                 ? 'plus-question::answers.notifications.invited'
                 : 'plus-question::answers.notifications.answer',
             ['user' => $user->name]
