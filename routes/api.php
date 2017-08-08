@@ -148,6 +148,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
 
             // 评论问题
             $api->post('/{question}/comments', API2\CommentController::class.'@storeQuestionComment');
+
+            // Attach a adoption answer for question.
+            // @PUT /api/v2/questions/:question/adoptions/:answer
+            $api->put('/{question}/adoptions/{answer}', API2\QuestionAdoptionController::class.'@store');
         });
 
         // Question answers.
