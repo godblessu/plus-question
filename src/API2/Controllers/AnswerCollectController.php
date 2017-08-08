@@ -61,6 +61,5 @@ class AnswerCollectController extends Controller
      */
     public function index(Request $request, ResponseFactory $response)
     {
-        
     }
 }
