@@ -49,17 +49,4 @@ class AnswerCollectController extends Controller
 
         return $response->json(['message' => [trans('plus-question::messages.success')]], 204);
     }
-
-    /**
-     * A list of answer for collections.
-     *
-     * @author bs<414606094@qq.com>
-     * @param  \Illuminate\Http\Request $request
-     * @param  \SlimKit\PlusQuestion\Models\Answer $answer
-     * @param  \Illuminate\Contracts\Routing\ResponseFactory $response
-     * @return mixed
-     */
-    public function index(Request $request, ResponseFactory $response)
-    {
-    }
 }
