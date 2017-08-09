@@ -296,9 +296,18 @@ class QuestionController extends Controller
         foreach (array_filter($request->only(['subject', 'body'])) as $key => $value) {
             $question->$key = $value;
         }
+        $images = $this->findMarkdownImageNotWithModels($question->body ?: '');
 
         $question->anonymity = $anonymity;
-        $question->save();
+        $question->getConnection()->transaction(function () use ($question, $images) {
+            $question->save();
+            // Update images.
+            $images->each(function ($image) use ($question) {
+                $image->channel = 'question:images';
+                $image->raw = $question->id;
+                $image->save();
+            });
+        });
 
         return $response->make(null, 204);
     }
