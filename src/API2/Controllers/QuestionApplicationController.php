@@ -21,7 +21,7 @@ class QuestionApplicationController extends Controller
     {
         $user = $request->user();
         if ($user->id !== $question->user_id) {
-            return response()->json(['message' => [trans('plus-question::questions.not-owner')]], 403);  
+            return response()->json(['message' => [trans('plus-question::questions.not-owner')]], 403);
         }
 
         if ($question->applications()->where('expires_at', null)->first()) {
