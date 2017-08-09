@@ -4,6 +4,8 @@
 - [获取一个回答详情](#获取一个回答详情)
 - [回答一个提问](#回答一个提问)
 - [采纳一个回答](#采纳一个回答)
+- [更新一个回答](#更新一个回答)
+- [删除一个回答](#删除一个回答)
 
 ## 获取回答列表
 
@@ -247,7 +249,7 @@ Status: 201 Created
 ## 采纳一个回答
 
 ```
-PUT /api/v2/questions/:question/adoptions/:answer
+PUT /questions/:question/adoptions/:answer
 ```
 
 #### 响应
@@ -262,3 +264,31 @@ Status: 201 Created
     ]
 }
 ```
+
+## 更新一个回答
+
+```
+PATCH /question-answers/:answer
+```
+
+#### 输入
+
+| 名称 | 类型 | 描述 |
+|:----:|:----:|----|
+| anonymity | `1` or `0` | **如果 `body` 字段不传，则本字段必须存在**，是否匿名。 |
+| body | String | **如果 `anonymity` 不传，则本字段必须存在**， 回答详情。 |
+
+#### 响应
+
+```
+Status: 201 OK
+```
+```json
+{
+    "message": [
+        "操作成功"
+    ]
+}
+```
+
+## 删除一个回答
