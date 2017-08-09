@@ -159,6 +159,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // $Patch /api/v2/questions/:question
             $api->patch('/{question}', API2\QuestionController::class.'@update');
 
+            // Delete a question.
+            // @Delete /api/v2/questions/:question
+            $api->delete('/{question}', API2\QuestionController::class.'@destory');
+
             // Answer.
             // @Route /api/v2/question/:question/answers
             $api->group(['prefix' => '{question}/answers'], function (RouteRegisterContract $api) {

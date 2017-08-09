@@ -293,4 +293,43 @@ class QuestionController extends Controller
 
         return $response->make(null, 204);
     }
+
+    /**
+     * @author bs<414606094@qq.com>
+     * @param  Illuminate\Http\Request $request
+     * @param  \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param  \SlimKit\PlusQuestion\Models\Question $question
+     * @return mixed
+     */
+    public function destory(Request $request,
+                            ResponseFactoryContract $response,
+                            QuestionModel $question)
+    {
+        $user = $request->user();
+        if ($question->user_id !== $user->id) {
+            return $response->json(['message' => [trans('plus-question::questions.not-owner')]], 403);
+        }
+
+        $user->getConnection()->transaction(function () use ($user, $question) {
+            // 如果有采纳或是自动入账已完成 则不退款
+            if (($question->automaticity && ! $question->answers()->where('invited', 1)->first())
+            || ($question->amount > 0 && $question->status != 1 && ! $question->answers()->where('adoption', 1)->first())) {
+                $user->wallet()->increment('balance', $question->amount);
+
+                $charge = new WalletChargeModel();
+                $charge->user_id = $question->user_id;
+                $charge->channel = 'system';
+                $charge->action = 1;
+                $charge->amount = $question->amount;
+                $charge->body = $charge->subject;
+                $charge->status = 1;
+
+                $charge->save();
+            }
+
+            $question->delete();
+        });
+
+        return $response->json(null, 204);
+    }
 }
