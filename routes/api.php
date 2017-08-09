@@ -192,6 +192,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
         // @Route /api/v2/question-answers
         $api->group(['prefix' => 'question-answers'], function (RouteRegisterContract $api) {
 
+            // Update a answer.
+            // @PATCH /api/v2/question-answers/:answer
+            $api->patch('/{answer}', API2\AnswerController::class.'@update');
+
             // Give a reward.
             // @POST /api/v2/question-answers/:answer/rewarders
             $api->post('/{answer}/rewarders', API2\AnswerRewardController::class.'@store');

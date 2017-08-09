@@ -7,6 +7,7 @@ use Zhiyi\Plus\Concerns\FindMarkdownFileTrait;
 use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
 use SlimKit\PlusQuestion\Models\Question as QuestionModel;
+use SlimKit\PlusQuestion\API2\Requests\UpdateAnswer as UpdateAnswerRequest;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
 use SlimKit\PlusQuestion\API2\Requests\QuestionAnswer as QuestionAnswerRequest;
 
@@ -201,5 +202,49 @@ class AnswerController extends Controller
             'message' => [trans('plus-question::messages.success')],
             'answer' => $answer,
         ], 201);
+    }
+
+    /**
+     * Update a answer.
+     *
+     * @param \SlimKit\PlusQuestion\API2\Requests\UpdateAnswer $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Answer $answer
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function update(UpdateAnswerRequest $request,
+                           ResponseFactoryContract $response,
+                           AnswerModel $answer)
+    {
+        $user = $request->user();
+
+        if ($user->id !== $answer->user_id) {
+            return $response->json(['message' => [trans('plus-question::answers.not-own')]], 403);
+        } elseif ($answer->adoption) {
+            return $response->json(['message' => [trans('plus-question::answers.adopted')]], 422);
+        }
+
+        $anonymity = $request->input('anonymity', $answer->anonymity) ? 1 : 0;
+        $body = $request->input('body', $answer->body) ?: '';
+        $images = $this->findMarkdownImageNotWithModels($body);
+
+        $answer->body = $body;
+        $answer->anonymity = $anonymity;
+
+        $answer->getConnection()->transaction(function () use ($answer, $images) {
+
+            // Save answer.
+            $answer->save();
+
+            // Update image file with.
+            $images->each(function ($image) use ($answer) {
+                $image->channel = 'question-answers:images';
+                $image->raw = $answer->id;
+                $image->save();
+            });
+        });
+
+        return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
     }
 }

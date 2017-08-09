@@ -31,4 +31,6 @@ return [
         'collected' => '已收藏该回答',
         'not-collected' => '未收藏该回答',
     ],
+    'not-own' => '你没有权限编辑该问题',
+    'adopted' => '该回答已被采纳，无法进行编辑',
 ];
