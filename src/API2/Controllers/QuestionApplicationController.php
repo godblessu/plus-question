@@ -17,6 +17,16 @@ class QuestionApplicationController extends Controller
         $this->apply_amount = config('question.apply_amount');
     }
 
+    /**
+     * Add an application for a question. 
+     *
+     * @author bs<414606094@qq.com>
+     * @param  Illuminate\Http\Request $request
+     * @param  SlimKit\PlusQuestion\Models\Question $question
+     * @param  Zhiyi\Plus\Models\WalletCharge $charge
+     * @param  SlimKit\PlusQuestion\Models\QuestionApplication $application
+     * @return mixed
+     */
     public function store(Request $request, Question $question, WalletCharge $charge, QuestionApplication $application)
     {
         $user = $request->user();
