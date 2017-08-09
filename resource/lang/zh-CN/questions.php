@@ -34,4 +34,10 @@ return [
         'charge-subject' => '问题被采纳获得悬赏',
         'notify-message' => '你提交的问题回答被采纳',
     ],
+
+    'application' => [
+        'already-exists' => '已有正在审核的申请',
+        '支付问题申精费用' => '支付问题申精费用',
+        '支付问题《:subject》的申精费用' => '支付问题《:subject》的申精费用',
+    ],
 ];

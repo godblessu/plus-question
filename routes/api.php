@@ -145,6 +145,14 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                     $api->delete('/{answer}', API2\AnswerCollectController::class.'@destroy');
                 });
             });
+
+            // Question application
+            // @Route /api/v2/user/question-application
+            $api->group(['prefix' => 'question-application'], function (RouteRegisterContract $api) {
+                // Add an application for a question.
+                // @POST /api/v2/user/question-application/:question
+                $api->post('/{question}', API2\QuestionApplicationController::class.'@store');
+            });
         });
 
         // Question.
