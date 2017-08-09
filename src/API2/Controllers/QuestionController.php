@@ -321,6 +321,7 @@ class QuestionController extends Controller
                 $charge->channel = 'system';
                 $charge->action = 1;
                 $charge->amount = $question->amount;
+                $charge->subject = trans('plus-question::questions.refund');
                 $charge->body = $charge->subject;
                 $charge->status = 1;
 
