@@ -87,6 +87,7 @@ class AnswerController extends Controller
         $answer->liked = false;
         $answer->collected = false;
         $answer->rewarded = false;
+        ($answer->question->look ?? false) && $answer->could = true;
         if ($userID) {
             $answer->liked = (bool) $answer->likes()->where('user_id', $userID)->first();
             $answer->collected = (bool) $answer->collectors()->where('user_id', $userID)->first();
@@ -98,7 +99,17 @@ class AnswerController extends Controller
             $answer->user_id = 0;
         }
 
-        if ($answer->question && ($answer->question->anonymity && $answer->question->user_id !== $userID)) {
+        // 无法查看.需要围观。
+        if ($answer->question &&
+            $answer->question->look &&
+            $userID !== $answer->user_id &&
+            ! $answer->onlookers()->where('id', $userID)->first()
+        ) {
+            $answer->could = false;
+            $answer->body = null;
+        }
+
+        if ($answer->question && $answer->question->anonymity && $answer->question->user_id !== $userID) {
             $answer->question->addHidden('user');
             $answer->question->user_id = 0;
         }
