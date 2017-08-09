@@ -36,6 +36,11 @@ class AnswerController extends Controller
 
         $answers = $question->answers()
             ->with('user')
+            // 如果是自动入账代表一对一，所以查询邀请答案.
+            ->when($question->automaticity, function ($query) {
+                return $query->where('invited', 0);
+            })
+            ->where('adoption', 0)
             ->orderBy($orderMap[$orderType], 'desc')
             ->offset($offset)
             ->limit($limit)
