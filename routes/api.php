@@ -204,6 +204,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // @POST /api/v2/question-answers/:answer/likes
             $api->post('/{answer}/likes', API2\AnswerLikeController::class.'@store');
 
+            // Onlookers an answer.
+            // @POST /api/v2/question-answers/:answer/onlookers
+            $api->post('/{answer}/onlookers', API2\AnswerOnlookersController::class.'@store');
+
             // Cancel like an answer.
             // @DELETE /api/v2/question-answers/:answer/likes
             $api->delete('/{answer}/likes', API2\AnswerLikeController::class.'@destroy');
