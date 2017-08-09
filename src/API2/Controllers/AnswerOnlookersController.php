@@ -24,7 +24,7 @@ class AnswerOnlookersController extends Controller
      * @param  Illuminate\Http\Request $request
      * @param  SlimKit\PlusQuestion\Models\Answer $answer
      * @param  Zhiyi\Plus\Models\WalletCharge $charge
-     * @param  Illuminate\Contracts\Routing\ResponseFactory $response 
+     * @param  Illuminate\Contracts\Routing\ResponseFactory $response
      * @return mixed
      */
     public function store(Request $request, Answer $answer, WalletCharge $charge, ResponseFactory $response)
