@@ -292,3 +292,13 @@ Status: 201 OK
 ```
 
 ## 删除一个回答
+
+```
+DELETE /question-answers/:answer
+```
+
+#### 响应
+
+```
+Status: 204 No Content
+```

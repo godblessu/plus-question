@@ -196,6 +196,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // @PATCH /api/v2/question-answers/:answer
             $api->patch('/{answer}', API2\AnswerController::class.'@update');
 
+            // Delete a answer.
+            // @DELETE /api/v2/question-answers/:answer
+            $api->delete('/{answer}', API2\AnswerController::class.'@destory');
+
             // Give a reward.
             // @POST /api/v2/question-answers/:answer/rewarders
             $api->post('/{answer}/rewarders', API2\AnswerRewardController::class.'@store');

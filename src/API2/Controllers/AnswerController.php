@@ -247,4 +247,30 @@ class AnswerController extends Controller
 
         return $response->json(['message' => [trans('plus-question::messages.success')]], 201);
     }
+
+    /**
+     * Delete a answer.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param \SlimKit\PlusQuestion\Models\Answer $answer
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function destory(Request $request, ResponseFactoryContract $response, AnswerModel $answer)
+    {
+        $user = $request->user();
+
+        if ($user->id !== $answer->user_id) {
+            return $response->json(['message' => [trans('plus-question::answers.not-own')]], 403);
+        } elseif ($answer->adoption) {
+            return $response->json(['message' => [trans('plus-question::answers.adopted')]], 422);
+        } elseif ($answer->invited) {
+            return $response->json(['message' => [trans('plus-question::answer.delete.invited')]], 422);
+        }
+
+        $answer->delete();
+
+        return $response->make('', 204);
+    }
 }
