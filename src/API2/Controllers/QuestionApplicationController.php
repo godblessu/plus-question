@@ -18,7 +18,7 @@ class QuestionApplicationController extends Controller
     }
 
     /**
-     * Add an application for a question. 
+     * Add an application for a question.
      *
      * @author bs<414606094@qq.com>
      * @param  Illuminate\Http\Request $request
