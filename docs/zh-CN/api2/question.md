@@ -60,8 +60,9 @@ PATCH /questions/:question
 
 | 字段 | 类型 | 描述 |
 |:----:|:----:|----|
-| subject | 字符串 | **当 `body` 不存在时，`subject` 为必须**，问题主题或者说标题，不能超过 255 **字节** ，必须以 `？` 结尾。（不区分全角或者半角） |
-| body | 字符串 | **当 `subject` 不存在时，`body` 为必须**，问题描述。 |
+| subject | 字符串 | **当 `body` / `anonymity` 不存在时，`subject` 为必须**，问题主题或者说标题，不能超过 255 **字节** ，必须以 `？` 结尾。（不区分全角或者半角） |
+| body | 字符串 | **当 `subject` / `anonymity` 不存在时，`body` 为必须**，问题描述。 |
+| anonymity | `1` or `0` | **当 `subject` / `body` 不存在时，`anonymity` 为必须**，是否匿名。 |
 
 #### 响应
 

@@ -285,10 +285,12 @@ class QuestionController extends Controller
                            ResponseFactoryContract $response,
                            QuestionModel $question)
     {
+        $anonymity = $request->input('anonymity', $question->anonymity) ? 1 : 0;
         foreach (array_filter($request->only(['subject', 'body'])) as $key => $value) {
             $question->$key = $value;
         }
 
+        $question->anonymity = $anonymity;
         $question->save();
 
         return $response->make(null, 204);

@@ -26,8 +26,9 @@ class UpdateQuestion extends FormRequest
     public function rules(): array
     {
         return [
-            'subject' => ['required_without:body', 'nullable', 'string', 'max:255', 'regex:/[?|？]$/is'],
-            'body' => 'required_without:subject|nullable|string',
+            'subject' => ['required_without_all:body,anonymity', 'nullable', 'string', 'max:255', 'regex:/[?|？]$/is'],
+            'body' => 'required_without_all:subject,anonymity|nullable|string',
+            'anonymity' => 'required_without_all:subject,body|nullable',
         ];
     }
 
@@ -54,6 +55,7 @@ class UpdateQuestion extends FormRequest
         return [
             'subject' => trans('plus-question::questions.attributes.subject'),
             'body' => trans('plus-question::questions.attributes.body'),
+            'anonymity' => trans('plus-question::questions.attributes.anonymity'),
         ];
     }
 }
