@@ -66,7 +66,9 @@ class AnswerCollectController extends Controller
         $after = $request->query('after', false);
         $user = $request->user();
 
-        $collections = $collectionModel->with('collectible')
+        $collections = $collectionModel->with(['collectible', 'collectible.question', 'collectible.onlookers' => function ($query) use ($user) {
+                return $query->where('id', $user->id);
+            }])
             ->where('collectible_type', 'question-answers')
             ->where('user_id', $user->id)
             ->when($after, function ($query) use ($after) {
@@ -77,10 +79,23 @@ class AnswerCollectController extends Controller
             ->get();
 
         return $response->json($collections->map(function ($collection) use ($user) {
+            // 如果是需要围观支付的答案
+            if ($collection->collectible->question &&
+                $collection->collectible->question->look &&
+                $collection->collectible->invited &&
+                $user->id !== $collection->collectible->user_id &&
+                $collection->collectible->onlookers->isEmpty()
+            ) {
+                $collection->collectible->could = false;
+                $collection->collectible->body = null;
+            }
+
             // 如果为匿名回答且回答者不是当前用户
             if ($collection->collectible->anonymity && $collection->collectible->user_id !== $user->id) {
                 $collection->collectible->user_id = 0;
             }
+
+            $collection->collectible->addHidden('question', 'onlookers');
 
             return $collection;
         }))->setStatusCode(200);

@@ -52,6 +52,30 @@ Header 200 Ok
 ```json5
 [
     {
+        "id": 4,
+        "user_id": 1,
+        "collectible_id": 2,
+        "collectible_type": "question-answers",
+        "created_at": "2017-08-08 08:51:37",
+        "updated_at": "2017-08-08 08:51:37",
+        "collectible": {
+            "id": 2,
+            "question_id": 4,
+            "user_id": 2,
+            "body": null,
+            "anonymity": 0,
+            "adoption": 0,
+            "invited": 1,
+            "comments_count": 0,
+            "rewards_amount": 0,
+            "rewarder_count": 0,
+            "likes_count": 1,
+            "created_at": "2017-08-07 14:19:58",
+            "updated_at": "2017-08-07 06:29:40",
+            "could": false
+        }
+    },
+    {
         "id": 3,
         "user_id": 1,
         "collectible_id": 1,
@@ -60,7 +84,7 @@ Header 200 Ok
         "updated_at": "2017-08-08 08:51:37",
         "collectible": {
             "id": 1,
-            "question_id": 1,
+            "question_id": 4,
             "user_id": 1,
             "body": "阿斯顿发生的",
             "anonymity": 0,
@@ -87,7 +111,7 @@ Header 200 Ok
 | collectible.id | int | 回答数据id |
 | collectible.question_id | int | 回答所属问题id |
 | collectible.user_id | int | 回答用户id 如果为匿名回答且回答者不是当前用户，该项值为0 |
-| collectible.body | string | 回答内容 |
+| collectible.body | string | 回答内容 需要付费围观时为null |
 | collectible.anonymity | int | <p>是否匿名</p> <p>1-匿名回答</p> <p>0-非匿名回答</p> |
 | collectible.adoption | int | <p>是否被采纳</p> <p>1-被采纳</p> <p>0-未被采纳</p> |
 | collectible.invited | int | <p>是否被邀请回答</p> <p>1-被邀请</p> <p>0-未被邀请</p> |
@@ -95,3 +119,4 @@ Header 200 Ok
 | collectible.rewards_amount | int | 被打赏总额 |
 | collectible.rewarder_count | int | 打赏者统计 |
 | collectible.likes_count | int | 点赞数 |
+| collectible.could | bool | 是否可以查看,当收藏的回答需要付费围观时出现该字段且值为false |
