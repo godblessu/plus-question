@@ -9,3 +9,4 @@
         - [关注问题](api2/user-question-watch.md)
         - [点赞回答](api2/user-answer-like.md)
         - [收藏回答](api2/user-answer-collect.md)
+        - [申请精选](api2/user-question-application.md)
