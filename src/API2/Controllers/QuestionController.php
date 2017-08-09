@@ -178,6 +178,8 @@ class QuestionController extends Controller
             return $response->json(['amount' => [trans('plus-question::questions.回答自动入账必须设置悬赏总额')]], 422);
         } elseif ($automaticity && count($usersIDs) !== 1) {
             return $response->json(['invitations' => [trans('plus-question::questions.回答自动入账只能邀请一人')]], 422);
+        } elseif ($look && ! $automaticity) {
+            return $response->json(['automaticity' => [trans('plus-question::questions.开启围观必须设置自动入账')]], 422);
         } elseif ($look && ! $amount) {
             return $response->json(['amount' => [trans('plus-question::question.开启围观必须设置悬赏金额')]], 422);
         }
