@@ -67,8 +67,8 @@ class AnswerCollectController extends Controller
         $user = $request->user();
 
         $collections = $collectionModel->with(['collectible', 'collectible.question', 'collectible.onlookers' => function ($query) use ($user) {
-                return $query->where('id', $user->id);
-            }])
+            return $query->where('id', $user->id);
+        }])
             ->where('collectible_type', 'question-answers')
             ->where('user_id', $user->id)
             ->when($after, function ($query) use ($after) {
