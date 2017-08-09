@@ -133,15 +133,14 @@ class AnswerController extends Controller
         $answer->user_id = $user->id;
         $answer->body = $body;
         $answer->anonymity = $anonymity;
-        $answer->invited = in_array($user->id, $question->invitations->toArray());
 
-        // 查询已邀请回答的答案。
-        $unautomaticity = $question->answers()
+        // 只有存在邀请列表并且没有参与过回答才可被指为邀请回答，否则为普通回答。
+        $answer->invited = in_array($user->id, $question->invitations->toArray()) && ! $question->answers()
             ->where('invited', 1)
-            ->orWhere('adoption', 1)
+            ->where('user_id', $user->id)
             ->first();
 
-        $question->getConnection()->transaction(function () use ($question, $answer, $images, $user, $unautomaticity) {
+        $question->getConnection()->transaction(function () use ($question, $answer, $images, $user) {
 
             // Save Answer.
             $question->answers()->save($answer);
@@ -158,7 +157,7 @@ class AnswerController extends Controller
             });
 
             // Automaticity ?
-            if ($question->automaticity && $answer->invited && ! $unautomaticity) {
+            if ($question->automaticity && $answer->invited) {
                 $user->wallet()->increment('balance', $question->amount);
 
                 $charge = new WalletChargeModel();
