@@ -96,12 +96,9 @@ class QuestionController extends Controller
         ];
         $answerResolveCall = function (AnswerModel $answer) use ($userID, $question) {
             $answer->addHidden('onlookers');
-            $answer->could = true;
-            if (
-                ($question->automaticity || ($question->lock && $answer->adoption)) &&
-                $answer->onlookers->isEmpty() &&
-                $answer->user_id !== $userID
-            ) {
+            $question->look && $answer->could = true;
+
+            if ($question->look && $answer->onlookers->isEmpty() && $answer->user_id !== $userID) {
                 $answer->could = false;
                 $answer->body = null;
             }
@@ -131,10 +128,18 @@ class QuestionController extends Controller
         $question->watched = ! $userID ? false : (bool) $question->watchers()->newPivotStatementForId($userID)->first();
         $question->invitation_answers = $question->answers->map($answerResolveCall);
         $question->adoption_answers = $question->answers()
-            ->with(['user', 'onlookers' => $loadMap['answers.onlookers']])
+            ->with('user')
             ->where('adoption', '!=', 0)
+            ->where('invited', 0)
             ->get()
-            ->map($answerResolveCall);
+            ->map(function (AnswerModel $answer) use ($userID) {
+                if ($answer->anonymity && $answer->user_id !== $userID) {
+                    $answer->addHidden('user');
+                    $answer->user_id = 0;
+                }
+
+                return $answer;
+            });
 
         // The question views count +1.
         $question->increment('views_count', 1);
