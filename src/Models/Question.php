@@ -77,4 +77,15 @@ class Question extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    /**
+     * A question may have one or more applications.
+     *
+     * @author bs<414606094@qq.com>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|null
+     */
+    public function applications()
+    {
+        return $this->hasMany(QuestionApplication::class, 'question_id', 'id');
+    }
 }
