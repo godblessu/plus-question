@@ -91,6 +91,7 @@ GET /question-topics/:topic/questions
 | type | 枚举：`all`、`new`、`hot`、`reward`、`excellent` | 默认值 `new`, `all` - 全部、`new` - 最新、`hot` - 热门、`reward` - 悬赏、`excellent` - 精选 。 |
 | limit | Integer | 默认 `20` ，获取列表条数，修正值 `1` - `30`。 |
 | offset | integer | 默认 `0` ，数据偏移量，传递之前通过接口获取的总数。 |
+| subject | string | 标题搜索关键字。 |
 
 #### 响应
 

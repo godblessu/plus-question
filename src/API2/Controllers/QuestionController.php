@@ -31,6 +31,7 @@ class QuestionController extends Controller
         $userID = $request->user('api')->id ?? 0;
         $limit = max(1, min(30, $request->query('limit', 20)));
         $offset = max(0, $request->query('offset', 0));
+        $subject = $request->query('subject');
         $map = [
             'all' => function ($query) {
                 $query->orderBy('id', 'desc');
@@ -56,7 +57,13 @@ class QuestionController extends Controller
             },
         ];
         $type = in_array($type = $request->query('type', 'new'), array_keys($map)) ? $type : 'new';
-        call_user_func($map[$type], $query = $questionModel->limit($limit)->offset($offset));
+        call_user_func($map[$type], $query = $questionModel
+            ->when($subject, function ($query) use ($subject) {
+                return $query->where('subject', 'like', '%'.$subject.'%');
+            })
+            ->limit($limit)
+            ->offset($offset)
+        );
         $questions = $query->get();
         $questions->load('user');
 
