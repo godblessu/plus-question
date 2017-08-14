@@ -3,8 +3,8 @@
 namespace SlimKit\PlusQuestion\API2\Controllers;
 
 use Illuminate\Http\Request;
+use Zhiyi\Plus\Models\User as UserModel;
 use Zhiyi\Plus\Concerns\FindMarkdownFileTrait;
-use SlimKit\PlusQuestion\Models\User as UserModel;
 use SlimKit\PlusQuestion\Models\Topic as TopicModel;
 use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
