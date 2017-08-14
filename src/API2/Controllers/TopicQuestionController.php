@@ -24,6 +24,7 @@ class TopicQuestionController extends Controller
     {
         $limit = max(1, min(30, $request->query('limit', 20)));
         $offset = max(0, $request->query('offset', 0));
+        $subject = $request->query('subject');
         $map = [
             'all' => function ($query) {
                 $query->orderBy('id', 'desc');
@@ -51,6 +52,9 @@ class TopicQuestionController extends Controller
         $type = in_array($type = $request->query('type', 'new'), array_keys($map)) ? $type : 'new';
         call_user_func($map[$type], $query = $topic->questions()->with('user'));
         $questions = $query->limit($limit)
+            ->when($subject, function ($query) use ($subject) {
+                return $query->where('subject', 'like', '%'.$subject.'%');
+            })
             ->offset($offset)
             ->get();
 
