@@ -32,15 +32,15 @@ class QuestionAdoptionController extends Controller
         if ($question->user_id !== $user->id) {
             return $response->json(['message' => [trans('plus-question::questions.adoption.not-owner')]], 403);
 
-        // Is the answer to this question?
+            // Is the answer to this question?
         } elseif ($answer->question_id !== $question->id) {
             return $response->json(['message' => [trans('plus-question::question.adoption.non')]], 422);
 
-        // Are the questions and answers the owners?
+            // Are the questions and answers the owners?
         } elseif ($answer->user_id === $question->user_id) {
             return $response->json(['message' => [trans('plus-question::questions.adoption.own-answer')]], 422);
 
-        // Have you ever submitted a question or has this question already answered?
+            // Have you ever submitted a question or has this question already answered?
         } elseif ($answer->adoption || ($adoption = $question->answers()->where('adoption', 1)->first())) {
             return $response->json(['message' => [trans('plus-question::questions.adoption.already')]], 422);
         }
