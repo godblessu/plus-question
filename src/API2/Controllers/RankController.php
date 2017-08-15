@@ -9,7 +9,6 @@ use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 
 class RankController extends Controller
 {
-
     /**
      * 获取解答排行榜.
      *
