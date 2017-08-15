@@ -144,6 +144,19 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                     // @DELETE /api/v2/user/question-answer/collections/:answer
                     $api->delete('/{answer}', API2\AnswerCollectController::class.'@destroy');
                 });
+
+                // Answer ranks
+                // @Route /api/v2/user/question-answer/ranks
+                $api->group(['prefix' => 'ranks'], function (RouteRegisterContract $api) {
+
+                    // Get ranks by number of answers.
+                    // @GET /api/v2/user/question-answer/ranks/answers
+                    $api->get('/answers', API2\RankController::class.'@answers');
+
+                    // Get ranks by number of likes_count.
+                    // @GET /api/v2/user/question-answer/ranks/likes
+                    $api->get('/likes', API2\RankController::class.'@likes');
+                });
             });
 
             // Question application

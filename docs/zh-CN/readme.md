@@ -11,3 +11,4 @@
         - [点赞回答](api2/user-answer-like.md)
         - [收藏回答](api2/user-answer-collect.md)
         - [申请精选](api2/user-question-application.md)
+        - [排行](/api2/user-rank.md)
