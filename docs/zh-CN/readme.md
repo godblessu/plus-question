@@ -3,6 +3,7 @@
 - APIs version 2
     - [话题](api2/topic.md)
     - [问题](api2/question.md)
+    - [评论](api2/comments.md)
     - [回答](api2/answer.md)
         - [打赏](api2/answer-reward.md)
         - [围观](api2/answer-onlookers.md)
