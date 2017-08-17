@@ -110,7 +110,6 @@ class AnswerRewardController extends Controller
             })->flatten()->toArray();
 
             if (in_array($respondent->id, $allexpert)) {
-
                 $income = new ExpertIncomeModel();
                 $income->charge_id = $respondentCharge->id;
                 $income->user_id = $respondent->id;
