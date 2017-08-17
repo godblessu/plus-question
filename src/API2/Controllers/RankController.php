@@ -125,8 +125,7 @@ class RankController extends Controller
     }
 
     /**
-     * 获取问答专家收�
-     * �排行.
+     * Get the rank of expert`s income.
      *
      * @param  Illuminate\Http\Request $request
      * @param  SlimKit\PlusQuestion\Models\Answer $answerModel
