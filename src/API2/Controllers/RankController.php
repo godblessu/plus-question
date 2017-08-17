@@ -125,7 +125,8 @@ class RankController extends Controller
     }
 
     /**
-     * 获取问答专家收入排行.
+     * 获取问答专家收�
+     * �排行.
      *
      * @param  Illuminate\Http\Request $request
      * @param  SlimKit\PlusQuestion\Models\Answer $answerModel
@@ -138,7 +139,7 @@ class RankController extends Controller
         $offset = $request->query('offset', 0);
 
         $users = $userModel->select('users.id', 'users.name')
-            ->join(DB::raw("(select `user_id`, SUM(`amount`) as `count` from `topic_expert_income` group by `user_id`) as count"), function ($join) {
+            ->join(DB::raw('(select `user_id`, SUM(`amount`) as `count` from `topic_expert_income` group by `user_id`) as count'), function ($join) {
                 return $join->on('users.id', '=', 'count.user_id');
             })
             ->orderBy('count.count', 'desc')
