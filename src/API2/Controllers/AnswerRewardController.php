@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Zhiyi\Plus\Models\Reward as RewardModel;
 use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
+use SlimKit\PlusQuestion\Models\TopicExpertIncome as ExpertIncomeModel;
 use SlimKit\PlusQuestion\API2\Requests\AnswerReward as AnswerRewardRequest;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
 
@@ -98,6 +99,26 @@ class AnswerRewardController extends Controller
             // save user charge.
             $userCharge->save();
             $respondentCharge->save();
+
+            // check if the user is a expert, record income.
+            $answer->question->load('topics.experts');
+            // get all expert of all the topics belongs to the question.
+            $allexpert = $answer->question->topics->map(function ($topic) {
+                return $topic->experts->map(function ($expert) {
+                    return $expert->id;
+                });
+            })->flatten()->toArray();
+
+            if (in_array($respondent->id, $allexpert)) {
+
+                $income = new ExpertIncomeModel();
+                $income->charge_id = $respondentCharge->id;
+                $income->user_id = $respondent->id;
+                $income->amount = $respondentCharge->amount;
+                $income->type = 'reward';
+
+                $income->save();
+            }
 
             return ['message' => trans('plus-question::messages.success')];
         }))->setStatusCode(201);
