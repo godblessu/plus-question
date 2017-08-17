@@ -4,6 +4,7 @@ namespace SlimKit\PlusQuestion\API2\Controllers;
 
 use DB;
 use Carbon\Carbon;
+use Zhiyi\Plus\Models\User;
 use Illuminate\Http\Request;
 use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 
@@ -82,7 +83,6 @@ class RankController extends Controller
      * @author bs<414606094@qq.com>
      * @param  Illuminate\Http\Request $request
      * @param  SlimKit\PlusQuestion\Models\Answer $answerModel
-     * @param  Carbon $datetime
      * @return mixed
      */
     public function likes(Request $request, AnswerModel $answerModel)
@@ -121,6 +121,41 @@ class RankController extends Controller
             $data['user_count'] = $answerModel->where('user_id', $user->id)->get()->sum('likes_count');
 
             return $data;
+        }), 200);
+    }
+
+    /**
+     * 获取问答专家收入排行.
+     *
+     * @param  Illuminate\Http\Request $request
+     * @param  SlimKit\PlusQuestion\Models\Answer $answerModel
+     * @return mixed
+     */
+    public function expertIncome(Request $request, User $userModel)
+    {
+        $auth = $request->user();
+        $limit = $request->query('limit', 10);
+        $offset = $request->query('offset', 0);
+
+        $users = $userModel->select('users.id', 'users.name')
+            ->join(DB::raw("(select `user_id`, SUM(`amount`) as `count` from `topic_expert_income` group by `user_id`) as count"), function ($join) {
+                return $join->on('users.id', '=', 'count.user_id');
+            })
+            ->orderBy('count.count', 'desc')
+            ->offset($offset)
+            ->take($limit)
+            ->get();
+
+        return response()->json($userModel->getConnection()->transaction(function () use ($users, $auth, $offset) {
+            return $users->map(function ($user, $key) use ($auth, $offset) {
+                $user->addHidden('extra');
+                $user->rank = $key + $offset + 1;
+
+                $user->following = $user->hasFollwing($auth);
+                $user->follower = $user->hasFollower($auth);
+
+                return $user;
+            });
         }), 200);
     }
 }

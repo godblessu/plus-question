@@ -156,6 +156,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
                     // Get ranks by number of likes_count.
                     // @GET /api/v2/user/question-answer/ranks/likes
                     $api->get('/likes', API2\RankController::class.'@likes');
+
+                    // Get ranks by expert`s income.
+                    // @GET /api/v2/user/question-answer/ranks/experts
+                    $api->get('/experts', API2\RankController::class.'@expertIncome');
                 });
             });
 

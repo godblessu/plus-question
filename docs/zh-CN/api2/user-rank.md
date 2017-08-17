@@ -2,6 +2,7 @@
 
 - [获取解答排行](#获取解答排行)
 - [获取问答达人排行](#获取问答达人排行)
+- [获取社区专家排行](#获取社区专家排行)
 
 ## 获取解答排行
 
@@ -135,3 +136,68 @@ Http Status 200 Ok
 | ranks.avatar | string/null | 用户头像 |
 | ranks.bg | string/null | 用户背景图片 |
 | ranks.verified | array/null | 用户认证资料 |
+
+## 获取社区专家排行
+
+根据话题下的专家收入进行的排行
+
+## 传入参数
+
+| 名称 | 类型 | 必填 | 说明 |
+|:----:|:-----|:----:|------|
+| limit | int | -    | 数据返回条数 默认10条 |
+| offset | int | -   | 偏移量 默认为0 |
+
+### 响应
+
+```
+Status: 200 Ok
+```
+
+```json5
+[
+    {
+        "id": 1,
+        "name": "baishi",
+        "rank": 1,
+        "following": false,
+        "follower": false,
+        "avatar": null,
+        "bg": null,
+        "verified": null
+    },
+    {
+        "id": 3,
+        "name": "root2",
+        "rank": 2,
+        "following": false,
+        "follower": false,
+        "avatar": null,
+        "bg": null,
+        "verified": null
+    },
+    {
+        "id": 2,
+        "name": "root1",
+        "rank": 3,
+        "following": false,
+        "follower": false,
+        "avatar": null,
+        "bg": null,
+        "verified": null
+    }
+]
+```
+
+### 返回参数
+
+| 名称 | 类型 | 说明 |
+|:----:|:-----|------|
+| id | int | 用户id |
+| name | string | 用户名称 ||
+| rank | int | 用户排名 |
+| following | bool | 对方用户是否关注了当前用户 |
+| follower | bool | 对方用户是否被当前用户关注 |
+| avatar | string/null | 用户头像 |
+| bg | string/null | 用户背景图片 |
+| verified | array/null | 用户认证资料 |
