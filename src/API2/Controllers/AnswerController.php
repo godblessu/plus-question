@@ -147,7 +147,7 @@ class AnswerController extends Controller
         $answer->anonymity = $anonymity;
 
         // 只有存在邀请列表并且没有参与过回答才可被指为邀请回答，否则为普通回答。
-        $answer->invited = in_array($user->id, $question->invitations->toArray()) && ! $question->answers()
+        $answer->invited = in_array($user->id, $question->invitations->pluck('user_id')->toArray()) && ! $question->answers()
             ->where('invited', 1)
             ->where('user_id', $user->id)
             ->first();
