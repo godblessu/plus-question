@@ -196,7 +196,6 @@ class AnswerController extends Controller
 
                 // is the one of experts?
                 if (in_array($user->id, $allexpert)) {
-  
                     $income = new ExpertIncomeModel();
                     $income->charge_id = $charge->id;
                     $income->user_id = $user->id;
