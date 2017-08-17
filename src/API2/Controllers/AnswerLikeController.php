@@ -61,12 +61,31 @@ class AnswerLikeController extends Controller
      */
     public function index(Request $request, Answer $answer, ResponseFactory $response)
     {
+        $userID = $request->user('api')->id ?? 0;
         $limit = $request->query('limit', 20);
         $after = $request->query('after', 0);
-        $list = $answer->likes()->when($after, function ($query) use ($after) {
+        $likes = $answer->likes()->with('user')->when($after, function ($query) use ($after) {
             return $query->where('id', '<', $after);
         })->take($limit)->orderBy('id', 'desc')->get();
 
-        return $response->json($list, 200);
+        return $response->json(
+            $answer->getConnection()->transaction(function () use ($likes, $userID) {
+                return $likes->map(function ($like) use ($userID) {
+                    if (! $like->relationLoaded('user')) {
+                        return $like;
+                    }
+
+                    $like->user->following = false;
+                    $like->user->follower = false;
+
+                    if ($userID && $like->user_id !== $userID) {
+                        $like->user->following = $like->user->hasFollwing($userID);
+                        $like->user->follower = $like->user->hasFollower($userID);
+                    }
+
+                    return $like;
+                });
+            })
+        )->setStatusCode(200);
     }
 }
