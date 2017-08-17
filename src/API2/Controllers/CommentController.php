@@ -92,7 +92,7 @@ class CommentController extends Controller
     /**
      * 存储回答评论.
      */
-    public function storeAnswerComment(CommentRequest $request, QuestionModel $question, AnswerModel $answer, Comment $comment)
+    public function storeAnswerComment(CommentRequest $request, AnswerModel $answer, Comment $comment)
     {
         $replyUser = intval($request->input('reply_user', 0));
         $body = $request->input('body');
@@ -126,8 +126,8 @@ class CommentController extends Controller
         }
 
         // 被回复用户不是问题发起者
-        if ($question->user_id !== $replyUser) {
-            $questionOwner = $user->newQuery()->where('id', $question->user_id)->first();
+        if ($replyUser && $answer->question->user_id !== $replyUser) {
+            $questionOwner = $user->newQuery()->where('id', $answer->question->user_id)->first();
             $message = '您的问题有新的评论';
             $questionOwner->sendNotifyMessage('answer:comment-reply', $message, [
                 'answer' => $answer,
