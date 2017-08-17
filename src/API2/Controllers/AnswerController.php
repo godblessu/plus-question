@@ -7,6 +7,7 @@ use Zhiyi\Plus\Concerns\FindMarkdownFileTrait;
 use SlimKit\PlusQuestion\Models\Answer as AnswerModel;
 use Zhiyi\Plus\Models\WalletCharge as WalletChargeModel;
 use SlimKit\PlusQuestion\Models\Question as QuestionModel;
+use SlimKit\PlusQuestion\Models\TopicExpertIncome as ExpertIncomeModel;
 use SlimKit\PlusQuestion\API2\Requests\UpdateAnswer as UpdateAnswerRequest;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
 use SlimKit\PlusQuestion\API2\Requests\QuestionAnswer as QuestionAnswerRequest;
@@ -127,6 +128,7 @@ class AnswerController extends Controller
      * @param \Illuminate\Contracts\Routing\ResponseFactory $response
      * @param \SlimKit\PlusQuestion\Models\Answer $answer
      * @param \SlimKit\PlusQuestion\Models\Question $question
+     * @param \SlimKit\PlusQuestion\Models\Expert $expert
      * @return mixed
      * @author Seven Du <shiweidu@outlook.com>
      */
@@ -183,6 +185,26 @@ class AnswerController extends Controller
                 $charge->status = 1;
 
                 $user->walletCharges()->save($charge);
+
+                $question->load('topics.experts');
+                // get all expert of all the topics belongs to the question.
+                $allexpert = $question->topics->map(function ($topic) {
+                    return $topic->experts->map(function ($expert) {
+                        return $expert->id;
+                    });
+                })->flatten()->toArray();
+
+                // is the one of experts?
+                if (in_array($user->id, $allexpert)) {
+  
+                    $income = new ExpertIncomeModel();
+                    $income->charge_id = $charge->id;
+                    $income->user_id = $user->id;
+                    $income->amount = $charge->amount;
+                    $income->type = 'answer';
+
+                    $income->save();
+                }
             }
         });
 
