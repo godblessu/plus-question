@@ -196,6 +196,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
             // 评论问题
             $api->post('/{question}/comments', API2\CommentController::class.'@storeQuestionComment');
 
+            // delete a comment of a question.
+            // @DELETE /api/v2/question/:question/comments/:comment
+            $api->delete('/{question}/comments/{comment}', API2\CommentController::class.'@delQuestionComment');
+
             // Attach a adoption answer for question.
             // @PUT /api/v2/questions/:question/adoptions/:answer
             $api->put('/{question}/adoptions/{answer}', API2\QuestionAdoptionController::class.'@store');
@@ -231,6 +235,10 @@ Route::group(['prefix' => 'api/v2'], function (RouteRegisterContract $api) {
 
             // 评论回答
             $api->post('/{answer}/comments', API2\CommentController::class.'@storeAnswerComment');
+
+            // delete a comment of a answer.
+            // @DELETE /api/v2/question-answers/:answer/comments/:comment
+            $api->delete('/{answer}/comments/{comment}', API2\CommentController::class.'@delAnswerComment');
         });
     });
 });

@@ -4,6 +4,8 @@
 - [获取回答评论列表](#获取回答评论列表)
 - [评论问题](#评论问题)
 - [评论答案](#评论答案)
+- [删除问题评论](#删除问题评论)
+- [删除回答评论](#删除回答评论)
 
 ## 获取问题评论列表
 
@@ -164,3 +166,26 @@ Status: 201 Created
     }
 }
 ```
+
+## 删除问题评论
+
+```
+DELETE /questions/:question/adoptions/:answer
+```
+
+### 响应
+
+```
+Status: 204 No Content
+```
+
+### 删除回答评论
+
+```
+DELETE /question-answers/:answer/comments/:comment
+```
+
+### 响应
+
+```
+Status: 204 No Content

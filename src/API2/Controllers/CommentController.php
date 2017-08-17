@@ -140,4 +140,54 @@ class CommentController extends Controller
             'comment' => $comment,
         ])->setStatusCode(201);
     }
+
+    /**
+     * delete a comment of a question.
+     *
+     * @author bs<414606094@qq.com>
+     * @param  Illuminate\Http\Request $request
+     * @param  SlimKit\PlusQuestion\Models\Question $question
+     * @param  Zhiyi\Plus\Models\Comment $comment
+     * @return mixed
+     */
+    public function delQuestionComment(Request $request, QuestionModel $question, Comment $comment)
+    {
+        $user = $request->user();
+        if ($user->id !== $comment->user_id) {
+            return response()->json(['message' => [trans('plus-question::comments.not-owner')]], 403);
+        }
+
+        $question->getConnection()->transaction(function () use ($question, $comment, $user) {
+            $comment->delete();
+            $question->decrement('comments_count', 1);
+            $user->extra()->decrement('comments_count', 1);
+        });
+
+        return response()->json()->setStatusCode(204);
+    }
+
+    /**
+     * delete a comment of an answer.
+     *
+     * @author bs<414606094@qq.com>
+     * @param  Illuminate\Http\Request $request
+     * @param  SlimKit\PlusQuestion\Models\Answer $answer
+     * @param  Zhiyi\Plus\Models\Comment $comment
+     * @return mixed
+     */
+    public function delAnswerComment(Request $request, AnswerModel $answer, Comment $comment)
+    {
+        $user = $request->user();
+        if ($user->id !== $comment->user_id) {
+            return response()->json(['message' => [trans('plus-question::comments.not-owner')]], 403);
+        }
+
+        $answer->getConnection()->transaction(function () use ($answer, $comment, $user) {
+            $comment->delete();
+            $answer->decrement('comments_count', 1);
+            $user->extra()->decrement('comments_count', 1);
+        });
+
+        return response()->json()->setStatusCode(204);
+    }
 }
