@@ -170,7 +170,7 @@ Status: 201 Created
 ## 删除问题评论
 
 ```
-DELETE /questions/:question/adoptions/:answer
+DELETE /questions/:question/comments/:answer
 ```
 
 ### 响应
