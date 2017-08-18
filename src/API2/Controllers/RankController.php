@@ -90,7 +90,6 @@ class RankController extends Controller
         ->get();
 
         return response()->json($answerModel->getConnection()->transaction(function () use ($answers, $user, $offset) {
-
             return $answers->map(function ($answer, $key) use ($user, $offset) {
                 $answer->user->extra->count = (int) $answer->count; // 回答点赞数
                 $answer->user->extra->rank = $key + $offset + 1; // 排名
@@ -100,7 +99,6 @@ class RankController extends Controller
 
                 return $answer->user;
             });
-
         }), 200);
     }
 
