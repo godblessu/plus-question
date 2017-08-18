@@ -9,7 +9,7 @@
 根据一定时间内发布的回答数进行的排序
 
 ```
-GET /user/question-answer/ranks/answers
+GET /question-ranks/answers
 ```
 
 ## 传入参数
@@ -27,56 +27,47 @@ Http Status 200 Ok
 ```
 
 ```json5
-{
-    "user_count": 0,
-    "ranks": [
-        {
-            "id": 3,
-            "name": "root2",
-            "count": 7,
-            "rank": 1,
-            "following": false,
-            "follower": false,
-            "avatar": null,
-            "bg": null,
-            "verified": null
-        },
-        {
-            "id": 2,
-            "name": "root1",
-            "count": 1,
-            "rank": 2,
-            "following": false,
-            "follower": false,
-            "avatar": null,
-            "bg": null,
-            "verified": null
+[
+    {
+        "id": 1,
+        "name": "baishi",
+        "following": false,
+        "follower": false,
+        "avatar": null,
+        "bg": null,
+        "verified": null,
+        "extra": {
+            "user_id": 1,
+            "likes_count": 2,
+            "comments_count": 9,
+            "followers_count": 0,
+            "followings_count": 0,
+            "updated_at": "2017-08-17 07:05:06",
+            "feeds_count": 0,
+            "questions_count": 0,
+            "answers_count": 19,
+            "count": 53,
+            "rank": 1
         }
-    ]
-}
+    }
+]
 ```
 
 ### 返回参数
+
 | 名称 | 类型 | 说明 |
 |:----:|:-----|------|
-| user_count | int | 当前用户收到的点赞数 |
-| ranks | array | 排行信息 |
-| ranks.id | int | 用户id |
-| ranks.name | string | 用户名称 |
-| ranks.count | int | 用户发布的回答数 |
-| ranks.rank | int | 用户排名 |
-| ranks.following | bool | 对方用户是否关注了当前用户 |
-| ranks.follower | bool | 对方用户是否被当前用户关注 |
-| ranks.avatar | string/null | 用户头像 |
-| ranks.bg | string/null | 用户背景图片 |
-| ranks.verified | array/null | 用户认证资料 |
+| extra.count | int | 回答数 |
+| extra.rank | int | 排行 |
+
+> 其他数据结构参考「用户」接口用户资料
 
 ## 获取问答达人排行
 
 根据全站回答收到的点赞数进行的排序
 
 ```
-GET /user/question-answer/ranks/likes
+GET /question-ranks/likes
 ```
 
 ## 传入参数
@@ -93,53 +84,49 @@ Http Status 200 Ok
 ```
 
 ```json5
-{
-    "user_count": 0,
-    "ranks": [
-        {
-            "id": 3,
-            "name": "root2",
-            "count": 7,
-            "rank": 1,
-            "following": false,
-            "follower": false,
-            "avatar": null,
-            "bg": null,
-            "verified": null
-        },
-        {
-            "id": 2,
-            "name": "root1",
-            "count": 1,
-            "rank": 2,
-            "following": false,
-            "follower": false,
-            "avatar": null,
-            "bg": null,
-            "verified": null
+```json5
+[
+    {
+        "id": 1,
+        "name": "baishi",
+        "following": false,
+        "follower": false,
+        "avatar": null,
+        "bg": null,
+        "verified": null,
+        "extra": {
+            "user_id": 1,
+            "likes_count": 2,
+            "comments_count": 9,
+            "followers_count": 0,
+            "followings_count": 0,
+            "updated_at": "2017-08-17 07:05:06",
+            "feeds_count": 0,
+            "questions_count": 0,
+            "answers_count": 19,
+            "count": 53,
+            "rank": 1
         }
-    ]
-}
+    }
+]
 ```
 
 ### 返回参数
+
 | 名称 | 类型 | 说明 |
 |:----:|:-----|------|
-| user_count | int | 当前用户收到的点赞数 |
-| ranks | array | 排行信息 |
-| ranks.id | int | 用户id |
-| ranks.name | string | 用户名称 |
-| ranks.count | int | 用户的回答收到的点赞数 |
-| ranks.rank | int | 用户排名 |
-| ranks.following | bool | 对方用户是否关注了当前用户 |
-| ranks.follower | bool | 对方用户是否被当前用户关注 |
-| ranks.avatar | string/null | 用户头像 |
-| ranks.bg | string/null | 用户背景图片 |
-| ranks.verified | array/null | 用户认证资料 |
+| extra.count | int | 点赞数 |
+| extra.rank | int | 排行 |
+
+> 其他数据结构参考「用户」接口用户资料
 
 ## 获取社区专家排行
 
 根据话题下的专家收入进行的排行
+
+```
+GET /question-ranks/experts
+```
 
 ## 传入参数
 
@@ -155,36 +142,28 @@ Status: 200 Ok
 ```
 
 ```json5
+```json5
 [
     {
         "id": 1,
         "name": "baishi",
-        "rank": 1,
         "following": false,
         "follower": false,
         "avatar": null,
         "bg": null,
-        "verified": null
-    },
-    {
-        "id": 3,
-        "name": "root2",
-        "rank": 2,
-        "following": false,
-        "follower": false,
-        "avatar": null,
-        "bg": null,
-        "verified": null
-    },
-    {
-        "id": 2,
-        "name": "root1",
-        "rank": 3,
-        "following": false,
-        "follower": false,
-        "avatar": null,
-        "bg": null,
-        "verified": null
+        "verified": null,
+        "extra": {
+            "user_id": 1,
+            "likes_count": 2,
+            "comments_count": 9,
+            "followers_count": 0,
+            "followings_count": 0,
+            "updated_at": "2017-08-17 07:05:06",
+            "feeds_count": 0,
+            "questions_count": 0,
+            "answers_count": 19,
+            "rank": 1
+        }
     }
 ]
 ```
@@ -193,11 +172,6 @@ Status: 200 Ok
 
 | 名称 | 类型 | 说明 |
 |:----:|:-----|------|
-| id | int | 用户id |
-| name | string | 用户名称 ||
-| rank | int | 用户排名 |
-| following | bool | 对方用户是否关注了当前用户 |
-| follower | bool | 对方用户是否被当前用户关注 |
-| avatar | string/null | 用户头像 |
-| bg | string/null | 用户背景图片 |
-| verified | array/null | 用户认证资料 |
+| extra.rank | int | 排行 |
+
+> 其他数据结构参考「用户」接口用户资料

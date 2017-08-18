@@ -21,7 +21,7 @@ class RankController extends Controller
      */
     public function answers(Request $request, AnswerModel $answerModel, Carbon $datetime)
     {
-        $user = $request->user();
+        $user = $request->user('api')->id ?? 0;
         $type = $request->query('type', 'day');
         $limit = $request->query('limit', 10);
         $offset = $request->query('offset', 0);
@@ -52,28 +52,16 @@ class RankController extends Controller
         ->take($limit)
         ->get();
 
-        return response()->json($answerModel->getConnection()->transaction(function () use ($answers, $user, $date, $answerModel, $offset) {
-            $data = [
-                'user_count' => 0,
-                'ranks' => [],
-            ];
-
-            $data['ranks'] = $answers->map(function ($answer, $key) use ($user, $offset) {
-                $answer->user->addHidden('extra');
-                $answer->user->count = (int) $answer->count; // 回答数
-                $answer->user->rank = $key + $offset + 1; // 排名
+        return response()->json($answerModel->getConnection()->transaction(function () use ($answers, $user, $offset) {
+            return $answers->map(function ($answer, $key) use ($user, $offset) {
+                $answer->user->extra->count = (int) $answer->count; // 回答数
+                $answer->user->extra->rank = $key + $offset + 1; // 排名
 
                 $answer->user->following = $answer->user->hasFollwing($user);
                 $answer->user->follower = $answer->user->hasFollower($user);
 
                 return $answer->user;
             });
-
-            $data['user_count'] = $answerModel->where('created_at', '>', $date)
-                ->where('user_id', $user->id)
-                ->get()->count();
-
-            return $data;
         }), 200);
     }
 
@@ -87,7 +75,7 @@ class RankController extends Controller
      */
     public function likes(Request $request, AnswerModel $answerModel)
     {
-        $user = $request->user();
+        $user = $request->user('api')->id ?? 0;
         $limit = $request->query('limit', 10);
         $offset = $request->query('offset', 0);
 
@@ -101,16 +89,11 @@ class RankController extends Controller
         ->take($limit)
         ->get();
 
-        return response()->json($answerModel->getConnection()->transaction(function () use ($answers, $user, $answerModel, $offset) {
-            $data = [
-                'user_count' => 0,
-                'ranks' => [],
-            ];
+        return response()->json($answerModel->getConnection()->transaction(function () use ($answers, $user, $offset) {
 
-            $data['ranks'] = $answers->map(function ($answer, $key) use ($user, $offset) {
-                $answer->user->addHidden('extra');
-                $answer->user->count = (int) $answer->count; // 回答点赞数
-                $answer->user->rank = $key + $offset + 1; // 排名
+            return $answers->map(function ($answer, $key) use ($user, $offset) {
+                $answer->user->extra->count = (int) $answer->count; // 回答点赞数
+                $answer->user->extra->rank = $key + $offset + 1; // 排名
 
                 $answer->user->following = $answer->user->hasFollwing($user);
                 $answer->user->follower = $answer->user->hasFollower($user);
@@ -118,9 +101,6 @@ class RankController extends Controller
                 return $answer->user;
             });
 
-            $data['user_count'] = $answerModel->where('user_id', $user->id)->get()->sum('likes_count');
-
-            return $data;
         }), 200);
     }
 
@@ -133,7 +113,7 @@ class RankController extends Controller
      */
     public function expertIncome(Request $request, User $userModel)
     {
-        $auth = $request->user();
+        $auth = $request->user('api')->id ?? 0;
         $limit = $request->query('limit', 10);
         $offset = $request->query('offset', 0);
 
@@ -148,8 +128,7 @@ class RankController extends Controller
 
         return response()->json($userModel->getConnection()->transaction(function () use ($users, $auth, $offset) {
             return $users->map(function ($user, $key) use ($auth, $offset) {
-                $user->addHidden('extra');
-                $user->rank = $key + $offset + 1;
+                $user->extra->rank = $key + $offset + 1;
 
                 $user->following = $user->hasFollwing($auth);
                 $user->follower = $user->hasFollower($auth);
